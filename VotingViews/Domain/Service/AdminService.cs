@@ -24,9 +24,11 @@ namespace VotingViews.Domain.Service
             return _admin.AddAdmin(admin);
         }
 
-        public Admin GetAdmin(int userId)
+        public Admin GetAdmin(int id)
         {
-            return _admin.FindByUserId(userId);
+            return _admin.FindByID(id);
         }
+
+        public Admin GetAdminByUserId(int userId) => _admin.FindByUserId(userId);
     }
 }

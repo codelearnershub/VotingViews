@@ -52,7 +52,7 @@ namespace VotingViews.Domain.Repository
 
         public List<Position> GetAll()
         {
-            var positions = _context.Positions.ToList();
+            var positions =  _context.Positions.ToList();
             return positions;
         }
 

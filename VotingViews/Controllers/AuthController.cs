@@ -41,7 +41,7 @@ namespace VotingViews.Controllers
         {
             RegisterUserDto user = new RegisterUserDto
             {
-                Type = "voter",
+                Type = "admin",
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 MiddleName = model.MiddleName,
@@ -99,7 +99,7 @@ namespace VotingViews.Controllers
                         name = $"{voter.FirstName} {voter.MiddleName.Substring(0, 1)}.{voter.LastName}";
                         break;
                     case "admin":
-                        var admin = _adminService.GetAdmin(user.Id);
+                        var admin = _adminService.GetAdminByUserId(user.Id);
                         emailName = $"{admin.Email}";
                         name = $"{admin.FirstName} {admin.MiddleName.Substring(0, 1)}.{admin.LastName}";
                         break;

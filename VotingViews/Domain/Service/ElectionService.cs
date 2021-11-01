@@ -19,7 +19,7 @@ namespace VotingViews.Domain.Service
             _election = election;
         }
 
-        public CreatedElectionDto AddElection(CreateElectionDto election)
+        public Election AddElection(CreateElectionDto election)
         {
             Election newElection = new Election
             {
@@ -28,13 +28,12 @@ namespace VotingViews.Domain.Service
                 StartDate  = election.StartDate,
                 EndDate = election.EndDate
             };
-            var model = _election.AddElection(newElection);
+            return  _election.AddElection(newElection);
 
-            return new CreatedElectionDto
-            {
-                Id = model.Id
-            };
+            
         }
+
+        public bool Exists(int id) => _election.Exists(id);
 
         public ElectionDto GetElectionByCode(Guid code)
         {
@@ -52,18 +51,21 @@ namespace VotingViews.Domain.Service
             };
         }
 
-        public ElectionDto GetElectionById(int id)
+        public ElectionDto GetElectionById(int? id)
         {
-            var election =  _election.FindbyId(id);
+            var election =  _election.FindbyId(id.Value);
 
-            return new ElectionDto
+            ElectionDto electionDto =  new ElectionDto
             {
+                Id = election.Id,
                 Name = election.Name,
                 Code = election.Code,
                 StartDate = election.StartDate,
                 EndDate = election.EndDate,
                 Status = GetStatus(election.Id)
             };
+
+            return electionDto;
         }
 
         public void DeleteElection(int id)
@@ -87,6 +89,7 @@ namespace VotingViews.Domain.Service
         {
             return _election.GetAll().Select(e => new ElectionDto
             {
+                Id = e.Id,
                 Name = e.Name,
                 Code = e.Code,
                 StartDate = e.StartDate,

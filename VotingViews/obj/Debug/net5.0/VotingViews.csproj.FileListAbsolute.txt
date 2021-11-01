@@ -163,3 +163,4 @@ C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\VotingViews.
 C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\VotingViews.genruntimeconfig.cache
 C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\VotingViews.csprojAssemblyReference.cache
 C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\Razor\Views\Election\Create.cshtml.g.cs
+C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\Razor\Views\Election\Update.cshtml.g.cs

@@ -10,11 +10,13 @@ namespace VotingViews.Domain.IService
 {
     public interface IElectionService
     {
-        public CreatedElectionDto AddElection(CreateElectionDto election);
+        public Election AddElection(CreateElectionDto election);
 
         public ElectionDto GetElectionByCode(Guid code);
 
-        public ElectionDto GetElectionById(int id);
+        public bool Exists(int id);
+
+        public ElectionDto GetElectionById(int? id);
 
         public void DeleteElection(int id);
 

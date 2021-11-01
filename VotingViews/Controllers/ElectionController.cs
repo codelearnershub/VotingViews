@@ -56,13 +56,9 @@ namespace VotingViews.Controllers
             return RedirectToAction("Index", "Election");
         }
 
-        [HttpGet]
-        public IActionResult Update(int? id)
+        [HttpGet()]
+        public IActionResult Update( int? id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
 
             var update = _service.GetElectionById(id.Value);
             if (update == null)

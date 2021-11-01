@@ -19,7 +19,7 @@ namespace VotingViews.Domain.Service
             _election = election;
         }
 
-        public CreatedPositionDto AddPosition(CreatePositionDto model)
+        public CreatedPositionDto AddPosition(PositionDto model)
         {
             Position newPosition = new Position
             {

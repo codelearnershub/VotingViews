@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VotingViews.Domain.IRepository;
 using VotingViews.Domain.IService;
 using VotingViews.DTOs;
 using VotingViews.Model.Entity;
@@ -47,15 +48,11 @@ namespace VotingViews.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreatePosition model)
+        public IActionResult Create(PositionDto model)
         {
-            CreatePositionDto create = new CreatePositionDto
-            {
-                Name = model.Name
-            };
             if (ModelState.IsValid)
             {
-                _position.AddPosition(create);
+                _position.AddPosition(model);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);

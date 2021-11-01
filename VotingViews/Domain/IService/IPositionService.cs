@@ -16,7 +16,7 @@ namespace VotingViews.Domain.IService
 
         public PositionDto GetPositionById(int id);
 
-        public CreatedPositionDto AddPosition(CreatePositionDto model);
+        public CreatedPositionDto AddPosition(PositionDto model);
         
         public List<PositionDto> GetPositionByElectionCode(Guid code);
 

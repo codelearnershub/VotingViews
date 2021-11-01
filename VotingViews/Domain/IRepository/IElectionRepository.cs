@@ -13,6 +13,8 @@ namespace VotingViews.Domain.IRepository
 
         public Election FindbyId(int id);
 
+        public bool Exists(int id);
+
         public Election AddElection(Election election);
 
         public List<Election> GetAll();
