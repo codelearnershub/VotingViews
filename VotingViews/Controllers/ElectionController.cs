@@ -79,7 +79,8 @@ namespace VotingViews.Controllers
             UpdateElectionDto update = new UpdateElectionDto
             {
                 Name = model.Name,
-                Status = model.Status
+                StartDate = model.StartDate,
+                EndDate = model.EndDate
             };
 
             if (ModelState.IsValid)

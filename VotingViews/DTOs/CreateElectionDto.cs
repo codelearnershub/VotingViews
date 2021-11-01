@@ -12,5 +12,9 @@ namespace VotingViews.DTOs
         public string Status { get; set; }
 
         public Guid Code { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
     }
 }

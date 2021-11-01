@@ -19,37 +19,64 @@ namespace VotingViews.Domain.Service
             _election = election;
         }
 
-        public Position AddPosition(Position model)
+        public CreatedPositionDto AddPosition(CreatePositionDto model)
         {
-
-            var position = _position.AddPosition(model);
-            return position;
+            Position newPosition = new Position
+            {
+                Name = model.Name
+            };
+            var position = _position.AddPosition(newPosition);
+            return new CreatedPositionDto
+            {
+                Id = position.Id
+            };
         }
 
-        public List<Position> GetPositionByElectionCode(Guid code)
+        public List<PositionDto> GetPositionByElectionCode(Guid code)
         {
-            return _position.GetPositionByElectionCode(code);
+            return _position.GetPositionByElectionCode(code).Select(p => new PositionDto
+            {
+                Name = p.Name
+            }).ToList();
         }
 
-        public IEnumerable<Position> GetPositionByElectionId(int electionId)
+        public IEnumerable<PositionDto> GetPositionByElectionId(int electionId)
         {
             _election.FindbyId(electionId);
-            return _position.GetAll().Where(e => e.ElectionId == electionId);
+            return _position.GetAll().Where(e => e.ElectionId == electionId).Select(p => new PositionDto
+            {
+                Name = p.Name
+            }).ToList();
         }
 
-        public Position GetPositionByName(string name)
+        public PositionDto GetPositionByName(string name)
         {
-            return _position.FindPositionByName(name);
+            var position =  _position.FindPositionByName(name);
+            return new PositionDto
+            {
+                Name = position.Name
+            };
         }
 
-        public Position GetPositionById(int id)
+        public PositionDto GetPositionById(int id)
         {
-            return _position.FindPositionById(id);
+            var position = _position.FindPositionById(id);
+
+            return new PositionDto
+            {
+                Name = position.Name
+            };
         }
 
-        public List<Position> ListOfPositions()
+        public List<PositionDto> ListOfPositions()
         {
-            return _position.GetAll();
+            return _position.GetAll().Select(p => new PositionDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Election = p.Election,
+                ElectionId = p.ElectionId
+            }).ToList();
         }
 
         public void DeletePosition(int id)

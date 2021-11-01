@@ -14,12 +14,12 @@ namespace VotingViews.Domain.IService
 
         public ElectionDto GetElectionByCode(Guid code);
 
-        public Election GetElectionById(int id);
+        public ElectionDto GetElectionById(int id);
 
         public void DeleteElection(int id);
 
         public Election UpdateElection(UpdateElectionDto update, int id);
 
-        public List<Election> GetAllElections();
+        public List<ElectionDto> GetAllElections();
     }
 }

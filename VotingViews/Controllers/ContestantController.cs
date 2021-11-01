@@ -39,9 +39,9 @@ namespace VotingViews.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            List<Position> positions = _position.ListOfPositions();
+            List<PositionDto> positions = _position.ListOfPositions();
             List<SelectListItem> listContestants = new List<SelectListItem>();
-            foreach (Position position in positions)
+            foreach (PositionDto position in positions)
             {
                 SelectListItem item = new SelectListItem(position.Name, position.Id.ToString());
                 listContestants.Add(item);

@@ -1,10 +1,13 @@
-﻿@model VotingViews.Models.CreateElectionVM
+﻿@model VotingViews.DTOs.ElectionDto
 
 @{
-    Layout = "_DashBoardLayoutAdmin";
-    ViewData["pageTitle"] = "Create Election";
+    ViewData["Title"] = "Create";
+    Layout = "_DashboardLayoutAdmin";
 }
 
+<h1>Create</h1>
+
+<h4>ElectionDto</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -16,12 +19,23 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    <option>InActive</option>
-                    <option>Active</option>
-                    <option>Completed</option>
-                </select>
+                <input asp-for="Status" class="form-control" />
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">

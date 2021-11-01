@@ -35,9 +35,9 @@ namespace VotingViews.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            List<Election> elections = _election.GetAllElections();
+            List<ElectionDto> elections = _election.GetAllElections();
             List<SelectListItem> listElections = new List<SelectListItem>();
-            foreach(Election election in elections)
+            foreach(ElectionDto election in elections)
             {
                 SelectListItem item = new SelectListItem(election.Name, election.Id.ToString());
                 listElections.Add(item);
@@ -47,11 +47,15 @@ namespace VotingViews.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Position model)
+        public IActionResult Create(CreatePosition model)
         {
+            CreatePositionDto create = new CreatePositionDto
+            {
+                Name = model.Name
+            };
             if (ModelState.IsValid)
             {
-                _position.AddPosition(model);
+                _position.AddPosition(create);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
