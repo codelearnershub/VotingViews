@@ -12,10 +12,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ElectionId)
+                Election
             </th>
             <th>
                 Create New Contestant
@@ -30,7 +30,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ElectionId)
+                @Html.DisplayFor(modelItem => item.Election.Name)
             </td>
             <td>
               <a asp-controller="Contestant" asp-action="Create"> Click here</a>

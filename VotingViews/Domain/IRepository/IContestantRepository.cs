@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VotingViews.DTOs;
 using VotingViews.Model.Entity;
 
 namespace VotingViews.Domain.IRepository
@@ -12,7 +13,7 @@ namespace VotingViews.Domain.IRepository
 
         public Contestant FindContestantById(int id);
 
-        Task<List<Contestant>> GetAll();
+        Task<List<ContestantDto>> GetAll();
 
         Task VoteContestant(int id, string email);
 

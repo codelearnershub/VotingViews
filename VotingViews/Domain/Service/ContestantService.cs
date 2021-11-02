@@ -41,7 +41,7 @@ namespace VotingViews.Domain.Service
            return _contestant.FindContestantById(id);
         }
 
-        public async Task<List<Contestant>> ListOfContestants()
+        public async Task<List<ContestantDto>> ListOfContestants()
         {
             return await _contestant.GetAll();
         }

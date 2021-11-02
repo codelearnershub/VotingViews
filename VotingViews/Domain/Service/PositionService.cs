@@ -23,7 +23,8 @@ namespace VotingViews.Domain.Service
         {
             Position newPosition = new Position
             {
-                Name = model.Name
+                Name = model.Name,
+                ElectionId = model.ElectionId,
             };
             var position = _position.AddPosition(newPosition);
             return new CreatedPositionDto
@@ -70,13 +71,7 @@ namespace VotingViews.Domain.Service
 
         public List<PositionDto> ListOfPositions()
         {
-            return _position.GetAll().Select(p => new PositionDto
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Election = p.Election,
-                ElectionId = p.ElectionId
-            }).ToList();
+            return _position.GetAll();
         }
 
         public void DeletePosition(int id)

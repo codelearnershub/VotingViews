@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VotingViews.Context;
 using VotingViews.Domain.IRepository;
+using VotingViews.DTOs;
 using VotingViews.Model.Entity;
 
 namespace VotingViews.Domain.Repository
@@ -50,10 +51,16 @@ namespace VotingViews.Domain.Repository
             return _context.Positions.Find(name);
         }
 
-        public List<Position> GetAll()
+        public List<PositionDto> GetAll()
         {
-            var positions =  _context.Positions.ToList();
-            return positions;
+            return _context.Positions.Include(P=>P.Election)
+                .Select(p => new PositionDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Election = p.Election,
+                    ElectionId = p.ElectionId
+                }).ToList();
         }
 
         public Position UpdatePosition(Position position)

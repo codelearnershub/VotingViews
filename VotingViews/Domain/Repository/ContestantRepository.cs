@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using VotingViews.Context;
 using VotingViews.Domain.IRepository;
+using VotingViews.DTOs;
 using VotingViews.Model.Entity;
 
 namespace VotingViews.Domain.Repository
@@ -67,10 +68,21 @@ namespace VotingViews.Domain.Repository
             return _context.Contestants.SingleOrDefault(a=>a.Id == id);
         }
 
-        public async Task<List<Contestant>> GetAll()
+        public async Task<List<ContestantDto>> GetAll()
         {
-            var contestant = await _context.Contestants.ToListAsync();
-            return contestant;
+            return await _context.Contestants.Include(c=>c.Position)
+                .Select(c=> new ContestantDto 
+                {
+                    Id=c.Id,
+                    FirstName = c.FirstName,
+                    LastName=c.LastName,
+                    MiddleName=c.MiddleName,
+                    Email=c.Email,
+                    Gender=c.Gender,
+                    ConestantVote =c.ConestantVote,
+                    Position=c.Position,
+                    PositionId=c.PositionId
+                }).ToListAsync();
         }
 
         public Contestant UpdateContestant(Contestant model)
