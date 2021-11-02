@@ -18,10 +18,17 @@ namespace VotingViews.Domain.Repository
         {
             _context = context;
         }
+
+        public Admin FindByID(int id)
+        {
+            return _context.Admins.SingleOrDefault(a => a.Id == id);
+        }
+
         public Admin FindByUserId(int userId)
         {
-            return _context.Admins.Find(userId);
+            return _context.Admins.SingleOrDefault(i => i.UserId == userId);
         }
+
         public List<Admin> GetAll()
         {
             return _context.Admins.ToList();

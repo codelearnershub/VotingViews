@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VotingViews.Domain.IRepository;
 using VotingViews.Domain.IService;
 using VotingViews.DTOs;
 using VotingViews.Model.Entity;
@@ -35,9 +36,9 @@ namespace VotingViews.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            List<Election> elections = _election.GetAllElections();
+            List<ElectionDto> elections = _election.GetAllElections();
             List<SelectListItem> listElections = new List<SelectListItem>();
-            foreach(Election election in elections)
+            foreach(ElectionDto election in elections)
             {
                 SelectListItem item = new SelectListItem(election.Name, election.Id.ToString());
                 listElections.Add(item);
@@ -47,7 +48,7 @@ namespace VotingViews.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Position model)
+        public IActionResult Create(PositionDto model)
         {
             if (ModelState.IsValid)
             {

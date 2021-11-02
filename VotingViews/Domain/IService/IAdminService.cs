@@ -12,6 +12,8 @@ namespace VotingViews.Domain.IService
     {
         public Admin AddAdmin(Admin admin);
 
-        public Admin GetAdmin(int userId);
+        public Admin GetAdmin(int id);
+
+        public Admin GetAdminByUserId(int userId);
     }
 }

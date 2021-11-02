@@ -1,4 +1,4 @@
-﻿@model VotingViews.Model.Entity.Election
+﻿@model VotingViews.DTOs.ElectionDto
 
 @{
     ViewData["PageTitle"] = "Details";
@@ -24,6 +24,20 @@
         </dd>
 
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd class="col-sm-10">
@@ -36,7 +50,7 @@
         <dd class="col-sm-10">
             <a asp-action="Create" asp-controller="Position" asp-route-electionId="electionId"> Create Position</a>
         </dd>
-        
+
     </dl>
 </div>
 <div>

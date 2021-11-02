@@ -13,7 +13,7 @@ namespace VotingViews.Domain.IService
 
         public Contestant AddContestant(Contestant model);
 
-        Task<List<Contestant>> ListOfContestants();
+        Task<List<ContestantDto>> ListOfContestants();
 
         Task VoteContestant(int id, string email);
 

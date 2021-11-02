@@ -9,6 +9,8 @@ namespace VotingViews.Domain.IRepository
 {
     public interface IAdminRepository
     {
+        public Admin FindByID(int id);
+
         public Admin FindByUserId(int userId);
 
         public Admin AddAdmin(Admin admin);

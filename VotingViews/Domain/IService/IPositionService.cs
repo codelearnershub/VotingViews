@@ -10,17 +10,17 @@ namespace VotingViews.Domain.IService
 {
     public interface IPositionService
     {
-        public IEnumerable<Position> GetPositionByElectionId(int electionId);
+        public IEnumerable<PositionDto> GetPositionByElectionId(int electionId);
 
-        public Position GetPositionByName(string name);
+        public PositionDto GetPositionByName(string name);
 
-        public Position GetPositionById(int id);
+        public PositionDto GetPositionById(int id);
 
-        public Position AddPosition(Position model);
+        public CreatedPositionDto AddPosition(PositionDto model);
         
-        public List<Position> GetPositionByElectionCode(Guid code);
+        public List<PositionDto> GetPositionByElectionCode(Guid code);
 
-        public List<Position> ListOfPositions();
+        public List<PositionDto> ListOfPositions();
 
         public void DeletePosition(int id);
 

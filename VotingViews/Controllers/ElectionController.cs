@@ -56,13 +56,9 @@ namespace VotingViews.Controllers
             return RedirectToAction("Index", "Election");
         }
 
-        [HttpGet]
-        public IActionResult Update(int? id)
+        [HttpGet()]
+        public IActionResult Update( int? id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
 
             var update = _service.GetElectionById(id.Value);
             if (update == null)
@@ -79,7 +75,8 @@ namespace VotingViews.Controllers
             UpdateElectionDto update = new UpdateElectionDto
             {
                 Name = model.Name,
-                Status = model.Status
+                StartDate = model.StartDate,
+                EndDate = model.EndDate
             };
 
             if (ModelState.IsValid)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VotingViews.Model.Entity.Election>
+﻿@model IEnumerable<VotingViews.DTOs.ElectionDto>
 
 @{
     Layout = "_DashBoardLayoutAdmin";
@@ -19,6 +19,12 @@
                 @Html.DisplayNameFor(model => model.Code)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th></th>
@@ -34,13 +40,19 @@
                 @Html.DisplayFor(modelItem => item.Code)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                
-                @Html.ActionLink("Update", "Update", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.Id  }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
+
+                @Html.ActionLink("Update", "Update", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </td>
         </tr>
 }

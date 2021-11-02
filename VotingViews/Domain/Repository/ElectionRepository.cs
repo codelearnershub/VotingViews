@@ -44,6 +44,11 @@ namespace VotingViews.Domain.Repository
             return _context.Elections.FirstOrDefault(a=>a.Id == id);
         }
 
+        public bool Exists(int id)
+        {
+            return _context.Elections.Any(e => e.Id == id);
+        }
+
         public List<Election> GetAll()
         {
             var elections = _context.Elections.ToList();

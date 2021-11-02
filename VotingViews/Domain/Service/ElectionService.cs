@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using VotingViews.Domain.IRepository;
 using VotingViews.Domain.IService;
 using VotingViews.DTOs;
 using VotingViews.Model.Entity;
-using VotingViews.Models;
 
 namespace VotingViews.Domain.Service
 {
@@ -19,21 +17,21 @@ namespace VotingViews.Domain.Service
             _election = election;
         }
 
-        public CreatedElectionDto AddElection(CreateElectionDto election)
+        public Election AddElection(CreateElectionDto election)
         {
             Election newElection = new Election
             {
                 Name = election.Name,
-                Status = election.Status,
-                Code = Guid.NewGuid()
+                Code = Guid.NewGuid(),
+                StartDate  = election.StartDate,
+                EndDate = election.EndDate
             };
-            var model = _election.AddElection(newElection);
+            return  _election.AddElection(newElection);
 
-            return new CreatedElectionDto
-            {
-                Id = model.Id
-            };
+            
         }
+
+        public bool Exists(int id) => _election.Exists(id);
 
         public ElectionDto GetElectionByCode(Guid code)
         {
@@ -42,7 +40,7 @@ namespace VotingViews.Domain.Service
             {
                 Name = election.Name,
                 Code = election.Code,
-                Status = election.Status,
+                Status = GetStatus(election.Id),
                 Positions = election.Positions.Select(c => new Position()
                 {
                     Id = c.Id,
@@ -51,9 +49,21 @@ namespace VotingViews.Domain.Service
             };
         }
 
-        public Election GetElectionById(int id)
+        public ElectionDto GetElectionById(int? id)
         {
-            return _election.FindbyId(id);
+            var election =  _election.FindbyId(id.Value);
+
+            ElectionDto electionDto =  new ElectionDto
+            {
+                Id = election.Id,
+                Name = election.Name,
+                Code = election.Code,
+                StartDate = election.StartDate,
+                EndDate = election.EndDate,
+                Status = GetStatus(election.Id)
+            };
+
+            return electionDto;
         }
 
         public void DeleteElection(int id)
@@ -66,7 +76,6 @@ namespace VotingViews.Domain.Service
             var election = _election.FindbyId(id);
 
             election.Name = update.Name;
-            election.Status = update.Status;
             election.StartDate = update.StartDate;
             election.EndDate = update.EndDate;
 
@@ -74,11 +83,35 @@ namespace VotingViews.Domain.Service
             return election;
         }
 
-        public List<Election> GetAllElections()
+        public List<ElectionDto> GetAllElections()
         {
-            return _election.GetAll();
+            return _election.GetAll().Select(e => new ElectionDto
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Code = e.Code,
+                StartDate = e.StartDate,
+                EndDate = e.EndDate,
+                Status = GetStatus(e.Id)
+            }).ToList();
         }
 
-       
+       private string GetStatus(int id)
+        {
+            var election = _election.FindbyId(id);
+            string status = "";
+
+            if(election.StartDate > DateTime.Now)
+            {
+                status = "InActive";
+            }else if(election.StartDate<= DateTime.Now && election.EndDate> DateTime.Now)
+            {
+                status = "Active";
+            }else if(election.EndDate<= DateTime.Now)
+            {
+                status = "Completed";
+            }
+            return status;
+        }
     }
 }
