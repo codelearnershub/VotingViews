@@ -65,7 +65,7 @@ namespace VotingViews.Domain.Repository
 
         public Contestant FindContestantById(int id)
         {
-            return _context.Contestants.SingleOrDefault(a=>a.Id == id);
+            return _context.Contestants.FirstOrDefault(a=>a.Id == id);
         }
 
         public async Task<List<ContestantDto>> GetAll()

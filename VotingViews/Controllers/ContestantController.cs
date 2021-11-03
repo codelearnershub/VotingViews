@@ -63,10 +63,6 @@ namespace VotingViews.Controllers
         [HttpGet]
         public IActionResult Update(int? id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
 
             var update = _contestant.GetContestantById(id.Value);
             if (update == null)
@@ -83,13 +79,14 @@ namespace VotingViews.Controllers
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                MiddleName = model.MiddleName
+                MiddleName = model.MiddleName,
+                Email = model.Email
             };
 
             if (ModelState.IsValid)
             {
                 _contestant.UpdateContestant(contestantDto, id);
-                return RedirectToAction("Details", "Contestant");
+                return RedirectToAction("Index", "Contestant");
             }
             return View();
         }
@@ -111,9 +108,9 @@ namespace VotingViews.Controllers
             return View(details);
         }
         [HttpPost]
-        public IActionResult Details(int id, Contestant contestant)
+        public IActionResult Details( Contestant contestant)
         {
-            _contestant.GetContestantById(id);
+            _contestant.GetContestantById(contestant.Id);
             ContestantVM model = new ContestantVM
             {
                FirstName = contestant.FirstName,

@@ -36,9 +36,20 @@ namespace VotingViews.Domain.Service
             _contestant.DeleteContestant(id);
         }
 
-        public Contestant GetContestantById(int id)
+        public ContestantDto GetContestantById(int? id)
         {
-           return _contestant.FindContestantById(id);
+           var contestant =  _contestant.FindContestantById(id.Value);
+           ContestantDto contestantDto =  new ContestantDto
+            {
+                Id = contestant.Id,
+                FirstName = contestant.FirstName,
+                LastName = contestant.LastName,
+                MiddleName = contestant.MiddleName,
+                Email = contestant.Email,
+                Gender = contestant.Gender,
+                ConestantVote = contestant.ConestantVote,
+            };
+            return contestantDto;
         }
 
         public async Task<List<ContestantDto>> ListOfContestants()

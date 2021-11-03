@@ -9,7 +9,7 @@ namespace VotingViews.Domain.IService
 {
     public interface IContestantService
     {
-        public Contestant GetContestantById(int id);
+        public ContestantDto GetContestantById(int? id);
 
         public Contestant AddContestant(Contestant model);
 
