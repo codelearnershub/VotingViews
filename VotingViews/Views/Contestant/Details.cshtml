@@ -1,4 +1,4 @@
-﻿@model VotingViews.Model.Entity.Contestant
+﻿@model VotingViews.DTOs.ContestantDto
 
 @{
     ViewData["pageTitle"] = "Contestant Details";
@@ -38,6 +38,18 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Position.Election.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Position.Election.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Position.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Position.Name)
         </dd>
     </dl>
 </div>

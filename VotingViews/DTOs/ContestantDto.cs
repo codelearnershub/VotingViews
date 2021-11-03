@@ -15,6 +15,7 @@ namespace VotingViews.DTOs
         public string MiddleName { get; set; }
 
         public string LastName { get; set; }
+        public string FullName => $"{FirstName} {MiddleName.Substring(0, 1)}. {LastName}";
 
         public string Email { get; set; }
 

@@ -46,6 +46,7 @@ namespace VotingViews.Domain.Service
             _election.FindbyId(electionId);
             return _position.GetAll().Where(e => e.ElectionId == electionId).Select(p => new PositionDto
             {
+                Id = p.Id,
                 Name = p.Name
             }).ToList();
         }
