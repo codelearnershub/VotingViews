@@ -48,6 +48,7 @@ namespace VotingViews.Domain.Service
                 Email = contestant.Email,
                 Gender = contestant.Gender,
                 ConestantVote = contestant.ConestantVote,
+                Position = contestant.Position
             };
             return contestantDto;
         }

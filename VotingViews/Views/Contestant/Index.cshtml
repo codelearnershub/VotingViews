@@ -15,10 +15,7 @@
                 FullName
             </th>
             <th>
-                Gender
-            </th>
-            <th>
-                Email
+                Election
             </th>
             <th>
                 Position
@@ -34,10 +31,7 @@
                     @Html.DisplayFor(modelItem => item.FullName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @Html.DisplayFor(modelItem => item.Position.Election.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Position.Name)

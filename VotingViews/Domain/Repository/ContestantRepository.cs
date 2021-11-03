@@ -37,7 +37,7 @@ namespace VotingViews.Domain.Repository
         public List<Contestant> GetContestantByPositionName(int id)
         {
             var contestant = _context.Contestants.Include(c => c.Position)
-                .Where(c => c.Position.Id ==  id).ToList();
+                .Where(c => c.Position.Id == id).ToList();
             return contestant;
         }
 
@@ -45,6 +45,7 @@ namespace VotingViews.Domain.Repository
         {
             var voter = await _context.Voters.FirstOrDefaultAsync(c => c.Email == email);
             var contestant = await _context.Contestants.FirstOrDefaultAsync(c => c.Id == id);
+
             if (contestant == null || voter == null)
             {
                 return;
@@ -65,23 +66,25 @@ namespace VotingViews.Domain.Repository
 
         public Contestant FindContestantById(int id)
         {
-            return _context.Contestants.FirstOrDefault(a=>a.Id == id);
+            return _context.Contestants.Include(c => c.Position).ThenInclude(c => c.Election).FirstOrDefault(a => a.Id == id);
         }
 
         public async Task<List<ContestantDto>> GetAll()
         {
-            return await _context.Contestants.Include(c=>c.Position)
-                .Select(c=> new ContestantDto 
+            return await _context.Contestants
+                .Include(c => c.Position)
+                .ThenInclude(c => c.Election)
+                .Select(c => new ContestantDto
                 {
-                    Id=c.Id,
+                    Id = c.Id,
                     FirstName = c.FirstName,
-                    LastName=c.LastName,
-                    MiddleName=c.MiddleName,
-                    Email=c.Email,
-                    Gender=c.Gender,
-                    ConestantVote =c.ConestantVote,
-                    Position=c.Position,
-                    PositionId=c.PositionId
+                    LastName = c.LastName,
+                    MiddleName = c.MiddleName,
+                    Email = c.Email,
+                    Gender = c.Gender,
+                    ConestantVote = c.ConestantVote,
+                    Position = c.Position,
+                    PositionId = c.PositionId
                 }).ToListAsync();
         }
 
