@@ -133,5 +133,17 @@ namespace VotingViews.Domain.Service
 
             return hashed;
         }
+
+        protected string GenerateVoterNumber()
+        {
+            Random random = new Random();
+
+            string alpha = "VN";
+            string number = random.Next(1, 10000).ToString("00000");
+
+            string generatedNumber = $"{alpha}{number}";
+
+            return generatedNumber;
+        }
     }
 }

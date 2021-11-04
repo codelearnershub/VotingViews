@@ -13,11 +13,13 @@ namespace VotingViews.Domain.Service
     {
         private readonly IContestantRepository _contestant;
         private readonly IVoterRepository _voter;
+        private readonly IVoteRepository _vote;
 
-        public ContestantService(IContestantRepository contestant, IVoterRepository voter)
+        public ContestantService(IContestantRepository contestant, IVoterRepository voter, IVoteRepository vote)
         {
             _contestant = contestant;
             _voter = voter;
+            _vote = vote;
         }
 
         public Contestant AddContestant(Contestant model)

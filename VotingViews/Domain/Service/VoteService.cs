@@ -2,24 +2,57 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VotingViews.Domain.IRepository;
+using VotingViews.Domain.IService;
+using VotingViews.Model.Entity;
 
 namespace VotingViews.Domain.Service
 {
-    public class VoteService
+    public class VoteService : IVoteService
     {
-        public Task VotedContestant()
+        private readonly IVoteRepository _voteRepo;
+        private readonly IVoterRepository _voterRepo;
+        private readonly IPositionRepository _positionRepo;
+        private readonly IContestantRepository _contestantRepo;
+
+        public VoteService(IVoteRepository voteRepo, IPositionRepository positionRepo, IContestantRepository contestantRepo, IVoterRepository voterRepo)
         {
-            return null;
+            _voteRepo = voteRepo;
+            _positionRepo = positionRepo;
+            _contestantRepo = contestantRepo;
+            _voterRepo = voterRepo;
         }
 
-        public  Task Vote()
+        public  Vote Vote(int id, string email)
         {
-            return null;
+            var voter =  _voterRepo.FindByEmail(email);
+            var vote = _voteRepo.FindVoteById(id);
+            var contestant =  _contestantRepo.FindContestantById(id);
+            var position =  _positionRepo.FindPositionById(id);
+            if (position == null || voter == null)
+            {
+                return null;
+            }
+            else if (position.Contestants.Contains(contestant) && voter.VotedContestants.Contains(contestant))
+            {
+                return null;
+
+            }
+            else
+            {
+                contestant.ConestantVote++;
+                position.Contestants.Add(contestant);
+                voter.VotedContestants.Add(contestant);
+            }
+            _contestantRepo.UpdateContestant(contestant);
+            return new Vote
+            {
+                TotalCount = vote.TotalCount
+            };
+
+
         }
 
-        private bool HasVotedBefore()
-        {
-           return true;
-        }
+
     }
 }

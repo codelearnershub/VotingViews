@@ -48,8 +48,8 @@ namespace VotingViews.Domain.Repository
 
         public void DeleteVoter(int id)
         {
-            var investor = _context.Voters.FirstOrDefault(i => i.UserId.Equals(id));
-            _context.Voters.Remove(investor);
+            var voter = _context.Voters.FirstOrDefault(i => i.UserId.Equals(id));
+            _context.Voters.Remove(voter);
             _context.SaveChanges();
         }
 
