@@ -40,34 +40,64 @@ namespace VotingViews.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            List<PositionDto> positions = _position.ListOfPositions();
+            List<ElectionDto> elections =_electionService.GetAllElections();
             List<SelectListItem> listContestants = new List<SelectListItem>();
-            foreach (PositionDto position in positions)
+            foreach (ElectionDto election in elections)
             {
-                SelectListItem item = new SelectListItem(position.Name, position.Id.ToString());
+                SelectListItem item = new SelectListItem(election.Name, election.Id.ToString());
                 listContestants.Add(item);
             }
-            ViewBag.Positions = listContestants;
+            ViewBag.Elections = listContestants;
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Contestant model)
+        public IActionResult Create(CreateContestant model)
         {
+            Contestant contestant = new Contestant
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                MiddleName = model.MiddleName,
+                Gender = model.Gender,
+                Email = model.Email,
+                PositionId = model.PositionId,
+                
+            };
             if (ModelState.IsValid)
             {
-                _contestant.AddContestant(model);
+                _contestant.AddContestant(contestant);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
         }
 
         [HttpGet]
+        public JsonResult GetPositionsByElectionId(string id)
+        {
+            var electionId = id.Replace('_', ' ');
+
+            var positions = _position.GetPositionByElectionId(Convert.ToInt32(electionId));
+
+            List<PositionVM> positionVms = new List<PositionVM>();
+
+            foreach (var position in positions)
+            {
+                PositionVM equipmentBrandVM = new PositionVM
+                {
+                    Id = position.Id,
+                    Name = position.Name
+                };
+
+                positionVms.Add(equipmentBrandVM);
+            }
+
+            var res = Json(positionVms);
+            return res;
+        }
+
+        [HttpGet]
         public IActionResult Update(int? id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
 
             var update = _contestant.GetContestantById(id.Value);
             if (update == null)
@@ -84,13 +114,14 @@ namespace VotingViews.Controllers
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                MiddleName = model.MiddleName
+                MiddleName = model.MiddleName,
+                Email = model.Email
             };
 
             if (ModelState.IsValid)
             {
                 _contestant.UpdateContestant(contestantDto, id);
-                return RedirectToAction("Details", "Contestant");
+                return RedirectToAction("Index", "Contestant");
             }
             return View();
         }
@@ -112,9 +143,9 @@ namespace VotingViews.Controllers
             return View(details);
         }
         [HttpPost]
-        public IActionResult Details(int id, Contestant contestant)
+        public IActionResult Details( Contestant contestant)
         {
-            _contestant.GetContestantById(id);
+            _contestant.GetContestantById(contestant.Id);
             ContestantVM model = new ContestantVM
             {
                FirstName = contestant.FirstName,
