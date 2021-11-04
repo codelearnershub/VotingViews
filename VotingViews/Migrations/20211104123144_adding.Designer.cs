@@ -9,8 +9,8 @@ using VotingViews.Context;
 namespace VotingViews.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211030140015_added")]
-    partial class added
+    [Migration("20211104123144_adding")]
+    partial class adding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,6 +175,35 @@ namespace VotingViews.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("VotingViews.Model.Entity.Vote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContestantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PositionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContestantId");
+
+                    b.HasIndex("PositionId");
+
+                    b.HasIndex("VoterId");
+
+                    b.ToTable("Votes");
+                });
+
             modelBuilder.Entity("VotingViews.Model.Entity.Voter", b =>
                 {
                     b.Property<int>("Id")
@@ -244,6 +273,27 @@ namespace VotingViews.Migrations
                     b.HasOne("VotingViews.Model.Entity.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VotingViews.Model.Entity.Vote", b =>
+                {
+                    b.HasOne("VotingViews.Model.Entity.Contestant", "Contestant")
+                        .WithMany()
+                        .HasForeignKey("ContestantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VotingViews.Model.Entity.Position", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VotingViews.Model.Entity.Voter", "Voter")
+                        .WithMany()
+                        .HasForeignKey("VoterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

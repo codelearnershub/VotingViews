@@ -41,7 +41,7 @@ namespace VotingViews.Controllers
         {
             RegisterUserDto user = new RegisterUserDto
             {
-                Type = "admin",
+                Type = "voter",
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 MiddleName = model.MiddleName,

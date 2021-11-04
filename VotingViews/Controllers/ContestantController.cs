@@ -15,11 +15,13 @@ namespace VotingViews.Controllers
     {
         private readonly IContestantService _contestant;
         private readonly IPositionService _position;
+        private readonly IVoteService _vote;
 
-        public ContestantController(IContestantService contestant, IPositionService position)
+        public ContestantController(IContestantService contestant, IPositionService position, IVoteService vote)
         {
             _contestant = contestant;
             _position = position;
+            _vote = vote;
         }
 
         [HttpGet]
@@ -29,10 +31,9 @@ namespace VotingViews.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Vote(int id)
+        public IActionResult Vote(int id)
         {
-            await _contestant.VoteContestant(id, User.Identity.Name);
-            //return RedirectToAction("Vote", "Contestant");
+            _vote.Vote(id, User.Identity.Name);
             return View();
         }
 
