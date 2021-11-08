@@ -41,6 +41,8 @@ namespace VotingViews.Domain.Service
             {
                 Name = election.Name,
                 Code = election.Code,
+                StartDate = election.StartDate,
+                EndDate = election.EndDate,
                 Status = GetStatus(election.Id),
                 Positions = election.Positions.Select(c => new Position()
                 {

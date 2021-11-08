@@ -13,7 +13,9 @@
 <p>Please input your Election Code that was sent to you below</p>
 
 <form method="post">
-    <input  type="text" name="code" placeholder="Text"  />
-   <button type="submit" asp-controller="Voter"  asp-action="Election"  value="Search"></button>
+    <input type="text" name="code" placeholder="Text" />
+    <button type="submit" asp-controller="Voter" asp-action="Election" value="Search" id="Button">Search</button>
+    @ViewBag.CodeError
 </form>
+
 

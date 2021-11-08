@@ -43,16 +43,48 @@ namespace VotingViews.Controllers
         [Authorize(Roles = "voter")]
         public IActionResult DashBoard()
         {
-
+            
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult DashBoard(ElectionDto model)
+        {
+            if(!model.Code.Equals(null)) ?
         }
 
         [Authorize(Roles = "voter")]
         public IActionResult Election(Guid code)
         {
-
+            var elect = _election.GetElectionByCode(code);
             var election = _position.GetPositionByElectionCode(code);
-            return View(election);
+            if(!code.Equals(null))
+            {
+                if (elect.StartDate > DateTime.Now)
+                {
+                    return RedirectToAction(nameof(PendingElection));
+                }
+                else if (elect.StartDate <= DateTime.Now && elect.EndDate > DateTime.Now)
+                {
+                    return View(election);
+                }
+                else if (elect.EndDate <= DateTime.Now)
+                {
+                    return RedirectToAction(nameof(CompletedElection));
+                }
+            }
+            ViewBag.CodeError = "Invalid Election Code";
+            return View();
+        }
+
+        public IActionResult PendingElection()
+        {
+            return View();
+        }
+
+        public IActionResult CompletedElection()
+        {
+            return View();
         }
 
         [HttpGet]

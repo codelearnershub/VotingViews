@@ -165,3 +165,5 @@ C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\ref\VotingVi
 C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\VotingViews.pdb
 C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\VotingViews.genruntimeconfig.cache
 C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\Razor\Views\Voter\Vote.cshtml.g.cs
+C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\Razor\Views\Voter\CompletedElection.cshtml.g.cs
+C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\Razor\Views\Voter\PendingElection.cshtml.g.cs
