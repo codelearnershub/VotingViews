@@ -43,23 +43,20 @@ namespace VotingViews.Controllers
         [Authorize(Roles = "voter")]
         public IActionResult DashBoard()
         {
-            
+
             return View();
         }
 
-        [HttpPost]
-        public IActionResult DashBoard(ElectionDto model)
-        {
-            if(!model.Code.Equals(null)) ?
-        }
+        
 
         [Authorize(Roles = "voter")]
         public IActionResult Election(Guid code)
         {
             var elect = _election.GetElectionByCode(code);
-            var election = _position.GetPositionByElectionCode(code);
-            if(!code.Equals(null))
+            if (!code.Equals(null))
             {
+                var election = _position.GetPositionByElectionCode(code);
+            
                 if (elect.StartDate > DateTime.Now)
                 {
                     return RedirectToAction(nameof(PendingElection));
@@ -116,7 +113,7 @@ namespace VotingViews.Controllers
         [HttpGet]
         public IActionResult VoterVote(int? id)
         {
-            var position =  _contestant.GetContestantByPositionId(id.Value);
+            var position = _contestant.GetContestantByPositionId(id.Value);
             return View(position);
         }
 
@@ -125,7 +122,7 @@ namespace VotingViews.Controllers
         public IActionResult Vote(int positionId, int contestantId)
         {
             var loggedInUserEmail = User.FindFirst(ClaimTypes.Name).Value;
-           
+
             _vote.Vote(positionId, loggedInUserEmail, contestantId);
             return View();
         }
@@ -156,7 +153,7 @@ namespace VotingViews.Controllers
             return View(voter);
         }
 
-        [Authorize(Roles ="voter")]
+        [Authorize(Roles = "voter")]
         public IActionResult Profile()
         {
             var email = User.FindFirst(ClaimTypes.Name).Value;
