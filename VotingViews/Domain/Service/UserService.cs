@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using VotingViews.Domain.IRepository;
@@ -24,6 +25,11 @@ namespace VotingViews.Domain.Service
             _voter = voter;
             _user = user;
             _role = role;
+        }
+
+        public bool Exists(int id)
+        {
+            return _user.Exists(id);
         }
 
         public LoggedInUserDto Login(LoginUserDto userDetails)

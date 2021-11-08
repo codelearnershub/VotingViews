@@ -8,6 +8,6 @@ namespace VotingViews.Domain.IService
 {
     public interface IVoteService
     {
-        public Vote Vote(int id, string email);
+         Vote Vote(int positionId, string email, int contestantId);
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VotingViews.Context;
 using VotingViews.Domain.IRepository;
@@ -18,10 +19,24 @@ namespace VotingViews.Domain.Repository
             _context = context;
         }
 
-        public IQueryable<Vote> Query()
+
+        public Vote Query(int voterId, int positionId)
         {
             return _context.Votes
-                .AsQueryable();
+                .Where(v => v.VoterId == voterId && v.PositionId == positionId).FirstOrDefault();
+        }
+
+        public bool Exists(int id)
+        {
+            return _context.Votes.Any(u => u.Id == id);
+
+        }
+
+        public Vote CreateVote(Vote vote)
+        {
+            _context.Votes.Add(vote);
+            _context.SaveChanges();
+            return vote;
         }
 
         public Vote FindVoteById(int id)

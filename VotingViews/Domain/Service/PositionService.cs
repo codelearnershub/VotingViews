@@ -35,10 +35,12 @@ namespace VotingViews.Domain.Service
 
         public List<PositionDto> GetPositionByElectionCode(Guid code)
         {
-            return _position.GetPositionByElectionCode(code).Select(p => new PositionDto
-            {
-                Name = p.Name
-            }).ToList();
+            return _position.GetPositionByElectionCode(code)
+                .Select(p => new PositionDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                }).ToList();
         }
 
         public IEnumerable<PositionDto> GetPositionByElectionId(int electionId)
@@ -53,10 +55,11 @@ namespace VotingViews.Domain.Service
 
         public PositionDto GetPositionByName(string name)
         {
-            var position =  _position.FindPositionByName(name);
+            var position = _position.FindPositionByName(name);
             return new PositionDto
             {
-                Name = position.Name
+                Name = position.Name,
+                TotalCount = position.TotalCount
             };
         }
 
@@ -66,7 +69,8 @@ namespace VotingViews.Domain.Service
 
             return new PositionDto
             {
-                Name = position.Name
+                Name = position.Name,
+                TotalCount = position.TotalCount
             };
         }
 
@@ -84,8 +88,8 @@ namespace VotingViews.Domain.Service
         {
             var position = _position.FindPositionById(id);
 
-                position.Name = model.Name;
-           
+            position.Name = model.Name;
+
 
             _position.UpdatePosition(position);
             return position;

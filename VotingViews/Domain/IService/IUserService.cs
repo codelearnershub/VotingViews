@@ -11,5 +11,7 @@ namespace VotingViews.Domain.IService
         public RegisteredUserDto Register(RegisterUserDto userDetails);
 
         public LoggedInUserDto Login(LoginUserDto userDetails);
+
+        public bool Exists(int id);
     }
 }

@@ -23,20 +23,15 @@ namespace VotingViews.Domain.Service
             _voterRepo = voterRepo;
         }
 
-        public  Vote Vote(int id, string email)
+        public Vote Vote(int positionId, string email, int contestantId)
         {
+           
             var voter =  _voterRepo.FindByEmail(email);
-            var vote = _voteRepo.FindVoteById(id);
-            var contestant =  _contestantRepo.FindContestantById(id);
-            var position =  _positionRepo.FindPositionById(id);
-            if (position == null || voter == null)
+            var contestant =  _contestantRepo.FindContestantById(contestantId);
+            var position =  _positionRepo.FindPositionById(positionId);
+            if (HasVotedBefore(voter.Id, position.Id))
             {
                 return null;
-            }
-            else if (position.Contestants.Contains(contestant) && voter.VotedContestants.Contains(contestant))
-            {
-                return null;
-
             }
             else
             {
@@ -45,14 +40,23 @@ namespace VotingViews.Domain.Service
                 voter.VotedContestants.Add(contestant);
             }
             _contestantRepo.UpdateContestant(contestant);
-            return new Vote
+            var vote = new Vote
             {
-                TotalCount = vote.TotalCount
+                PositionId = positionId,
+                ContestantId = contestantId,
+                VoterId = voter.Id
             };
+
+            return _voteRepo.CreateVote(vote);
 
 
         }
 
+        private bool HasVotedBefore(int voterid, int positionId)
+        {
+            var vote = _voteRepo.Query(voterid, positionId);
 
+            return (vote != null) ? true : false;
+        }
     }
 }
