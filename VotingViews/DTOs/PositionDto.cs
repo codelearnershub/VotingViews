@@ -16,6 +16,8 @@ namespace VotingViews.DTOs
 
         public int? ElectionId { get; set; }
 
+        public int? TotalCount { get; set; }
+
         public ICollection<Contestant> Contestants { get; set; } = new HashSet<Contestant>();
     }
 }

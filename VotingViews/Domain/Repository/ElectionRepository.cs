@@ -36,6 +36,7 @@ namespace VotingViews.Domain.Repository
         public Election FindByCode(Guid code)
         {
             return _context.Elections
+                .Include(c=>c.Positions)
                 .FirstOrDefault(c => c.Code == code);
         }
 

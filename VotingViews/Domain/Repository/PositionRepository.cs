@@ -14,10 +14,12 @@ namespace VotingViews.Domain.Repository
     public class PositionRepository : IPositionRepository
     {
         private readonly ApplicationContext _context;
+        private readonly IElectionRepository _election;
 
-        public PositionRepository(ApplicationContext context)
+        public PositionRepository(ApplicationContext context, IElectionRepository election)
         {
             _context = context;
+            _election = election;
         }
 
         public Position AddPosition(Position position)
@@ -36,13 +38,17 @@ namespace VotingViews.Domain.Repository
 
         public Position FindPositionById(int id)
         {
-            return _context.Positions.Find(id);
+            var position = _context.Positions
+                .Include(c => c.Contestants)
+                .FirstOrDefault(c => c.Id == id);
+            return position;
         }
 
         public List<Position> GetPositionByElectionCode(Guid code)
         {
-            var positions = _context.Positions.Include(p=>p.Election)
-                .Where(p => p.Election.Code == code).ToList();
+            var election = _election.FindByCode(code);
+           
+            var positions = election.Positions.ToList();
             return positions;
         }
 

@@ -19,7 +19,7 @@ namespace VotingViews.Domain.IService
 
         public void DeleteContestant(int id);
 
-        public List<Contestant> GetContestantByPositionName(int id);
+        public List<ContestantDto> GetContestantByPositionId(int id);
 
         public Contestant UpdateContestant(UpdateContestantDto model, int id);
     }

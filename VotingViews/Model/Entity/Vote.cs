@@ -14,5 +14,11 @@ namespace VotingViews.Model.Entity
         public Voter Voter { get; set; }
 
         public int VoterId { get; set; }
+
+        public Position Position { get; set; }
+
+        public int PositionId { get; set; }
+
+        public int TotalCount { get; set; }
     }
 }

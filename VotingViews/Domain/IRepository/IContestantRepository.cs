@@ -19,7 +19,7 @@ namespace VotingViews.Domain.IRepository
 
         public Contestant UpdateContestant(Contestant model);
 
-        public List<Contestant> GetContestantByPositionName(int id);
+        public List<ContestantDto> GetContestantByPositionId(int id);
 
         public void DeleteContestant(int id);
     }

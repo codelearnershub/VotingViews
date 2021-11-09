@@ -36,10 +36,13 @@ namespace VotingViews.Domain.Service
         public ElectionDto GetElectionByCode(Guid code)
         {
             var election = _election.FindByCode(code);
+            
             return new ElectionDto
             {
                 Name = election.Name,
                 Code = election.Code,
+                StartDate = election.StartDate,
+                EndDate = election.EndDate,
                 Status = GetStatus(election.Id),
                 Positions = election.Positions.Select(c => new Position()
                 {

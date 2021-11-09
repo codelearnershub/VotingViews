@@ -14,10 +14,12 @@ namespace VotingViews.Domain.Repository
     public class ContestantRepository : IContestantRepository
     {
         private readonly ApplicationContext _context;
+        private readonly IPositionRepository _position;
 
-        public ContestantRepository(ApplicationContext context)
+        public ContestantRepository(ApplicationContext context, IPositionRepository position)
         {
             _context = context;
+            _position = position;
         }
         public Contestant AddContestant(Contestant contestant)
         {
@@ -34,10 +36,23 @@ namespace VotingViews.Domain.Repository
             _context.SaveChanges();
         }
 
-        public List<Contestant> GetContestantByPositionName(int id)
+        public List<ContestantDto> GetContestantByPositionId(int id)
         {
-            var contestant = _context.Contestants.Include(c => c.Position)
-                .Where(c => c.Position.Id == id).ToList();
+            var position = _position.FindPositionById(id);
+
+            var contestant = position.Contestants.Select(c => new ContestantDto
+            {
+                Id = c.Id,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                MiddleName = c.MiddleName,
+                Email = c.Email,
+                Gender = c.Gender,
+                ConestantVote = c.ConestantVote,
+                Position = c.Position,
+                PositionId = c.PositionId
+            }).ToList();
+
             return contestant;
         }
 

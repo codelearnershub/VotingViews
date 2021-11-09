@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VotingViews.Context;
 using VotingViews.Domain.IRepository;
@@ -34,6 +35,17 @@ namespace VotingViews.Domain.Repository
         {
             var user = _context.Users.Find(id);
             return user;
+        }
+
+        public bool Exists(int id)
+        {
+            return _context.Users.Any(u => u.Id == id);
+           
+        }
+
+        public bool ExistsAsync(Expression<Func<User, bool>> model)
+        {
+            return _context.Users.Any(model);
         }
 
         public List<User> GetAll()

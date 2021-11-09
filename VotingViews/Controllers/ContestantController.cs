@@ -14,14 +14,16 @@ namespace VotingViews.Controllers
     public class ContestantController : Controller
     {
         private readonly IContestantService _contestant;
-        private readonly IElectionService _electionService;
         private readonly IPositionService _position;
+        private readonly IElectionService _election;
+        private readonly IVoteService _vote;
 
-        public ContestantController(IContestantService contestant, IPositionService position, IElectionService electionService)
+        public ContestantController(IContestantService contestant, IPositionService position, IVoteService vote, IElectionService election)
         {
             _contestant = contestant;
             _position = position;
-            _electionService = electionService;
+            _vote = vote;
+            _election = election;
         }
 
         [HttpGet]
@@ -31,17 +33,16 @@ namespace VotingViews.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Vote(int id)
-        {
-            await _contestant.VoteContestant(id, User.Identity.Name);
-            //return RedirectToAction("Vote", "Contestant");
-            return View();
-        }
+        //public IActionResult Vote(int id)
+        //{
+        //    _vote.Vote(id, User.Identity.Name);
+        //    return View();
+        //}
 
         [HttpGet]
         public IActionResult Create()
         {
-            List<ElectionDto> elections =_electionService.GetAllElections();
+            List<ElectionDto> elections =_election.GetAllElections();
             List<SelectListItem> listContestants = new List<SelectListItem>();
             foreach (ElectionDto election in elections)
             {

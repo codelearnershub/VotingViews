@@ -61,6 +61,7 @@ namespace VotingViews.Context
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Contestant> Contestants { get; set; }
         public DbSet<Voter> Voters { get; set; }
+        public DbSet<Vote> Votes { get; set; }
         public DbSet<Position> Positions { get; set; }
         public DbSet<Election> Elections { get; set; }
         public DbSet<User> Users { get; set; }

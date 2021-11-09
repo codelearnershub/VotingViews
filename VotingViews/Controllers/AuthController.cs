@@ -39,20 +39,29 @@ namespace VotingViews.Controllers
         [HttpPost]
         public IActionResult Register(AuthVM.Register model)
         {
-            RegisterUserDto user = new RegisterUserDto
+            if (!ModelState.IsValid)
             {
-                Type = "admin",
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                MiddleName = model.MiddleName,
-                Email = model.Email,
-                Password = model.Password,
-                Address = model.Address,
-            };
+                return View(model);
+            }
+            else
+            {
+                
+                RegisterUserDto user = new RegisterUserDto
+                {
+                    Type = "voter",
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    MiddleName = model.MiddleName,
+                    Email = model.Email,
+                    Password = model.Password,
+                    Address = model.Address,
+                };
 
-            var registeredUser = _userService.Register(user);
+                var registeredUser = _userService.Register(user);
 
-            return RedirectToAction(nameof(Login));
+                return RedirectToAction(nameof(Login));
+            }
+           
         }
 
         public IActionResult Login()

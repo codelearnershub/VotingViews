@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using VotingViews.Domain.IRepository;
@@ -24,6 +25,11 @@ namespace VotingViews.Domain.Service
             _voter = voter;
             _user = user;
             _role = role;
+        }
+
+        public bool Exists(int id)
+        {
+            return _user.Exists(id);
         }
 
         public LoggedInUserDto Login(LoginUserDto userDetails)
@@ -132,6 +138,18 @@ namespace VotingViews.Domain.Service
                 numBytesRequested: 256 / 8));
 
             return hashed;
+        }
+
+        protected string GenerateVoterNumber()
+        {
+            Random random = new Random();
+
+            string alpha = "VN";
+            string number = random.Next(1, 10000).ToString("00000");
+
+            string generatedNumber = $"{alpha}{number}";
+
+            return generatedNumber;
         }
     }
 }

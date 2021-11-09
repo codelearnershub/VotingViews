@@ -11,6 +11,8 @@ namespace VotingViews.Model.Entity
         public Election Election { get; set; }
         public int? ElectionId { get; set; }
 
+        public int? TotalCount { get; set; }
+
         public ICollection<Contestant> Contestants { get; set; } = new HashSet<Contestant>();
     }
 }

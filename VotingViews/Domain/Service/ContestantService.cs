@@ -13,11 +13,15 @@ namespace VotingViews.Domain.Service
     {
         private readonly IContestantRepository _contestant;
         private readonly IVoterRepository _voter;
+        private readonly IVoteRepository _vote;
+        private readonly IPositionService _position;
 
-        public ContestantService(IContestantRepository contestant, IVoterRepository voter)
+        public ContestantService(IContestantRepository contestant, IVoterRepository voter, IVoteRepository vote, IPositionService position)
         {
             _contestant = contestant;
             _voter = voter;
+            _vote = vote;
+            _position = position;
         }
 
         public Contestant AddContestant(Contestant model)
@@ -26,9 +30,10 @@ namespace VotingViews.Domain.Service
             return newContestant;
         }
 
-        public List<Contestant> GetContestantByPositionName(int id)
+        public  List<ContestantDto> GetContestantByPositionId(int id)
         {
-            return _contestant.GetContestantByPositionName(id);
+            var contestant =  _contestant.GetContestantByPositionId(id);
+            return contestant;
         }
 
         public void DeleteContestant(int id)
