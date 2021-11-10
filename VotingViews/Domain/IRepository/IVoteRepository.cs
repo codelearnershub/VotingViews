@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using VotingViews.DTOs;
 using VotingViews.Model.Entity;
 
 namespace VotingViews.Domain.IRepository
@@ -10,6 +11,10 @@ namespace VotingViews.Domain.IRepository
     public interface IVoteRepository
     {
         public Vote Query(int voterId, int positionId);
+
+        public List<Vote> GetVoteByContestantId(int id);
+
+        public List<VoteDto> GetVotes();
 
         public Vote FindVoteById(int id);
 

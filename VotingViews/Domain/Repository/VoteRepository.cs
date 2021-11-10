@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VotingViews.Context;
 using VotingViews.Domain.IRepository;
+using VotingViews.DTOs;
 using VotingViews.Model.Entity;
 
 namespace VotingViews.Domain.Repository
@@ -13,12 +14,38 @@ namespace VotingViews.Domain.Repository
     public class VoteRepository : IVoteRepository
     {
         private readonly ApplicationContext _context;
+        private readonly IContestantRepository _contestantRepo;
 
-        public VoteRepository(ApplicationContext context)
+        public VoteRepository(ApplicationContext context, IContestantRepository contestantRepo)
         {
             _context = context;
+            _contestantRepo = contestantRepo;
         }
 
+        public List<Vote> GetVoteByContestantId(int id)
+        {
+            var contestant = _contestantRepo.FindContestantById(id);
+
+            var vote = contestant.Votes.ToList();
+            return vote;
+        }
+
+        public List<VoteDto> GetVotes()
+        {
+            var vote = _context.Votes
+                .Include(v => v.Contestant)
+                .Select(v => new VoteDto
+                {
+                    Id = v.Id,
+                    Contestant = v.Contestant,
+                    ContestantId = v.ContestantId,
+                    Position = v.Position,
+                    PositionId = v.PositionId,
+                    Voter = v.Voter,
+                    VoterId = v.VoterId
+                }).ToList();
+            return vote;
+        }
 
         public Vote Query(int voterId, int positionId)
         {
@@ -47,7 +74,7 @@ namespace VotingViews.Domain.Repository
 
         public Vote GetVoteByPositionId(int id)
         {
-            var vote = _context.Votes.Include(c=>c.Position)
+            var vote = _context.Votes.Include(c => c.Position)
                 .FirstOrDefault(v => v.PositionId == id);
 
             return vote;

@@ -65,6 +65,8 @@ namespace VotingViews
 
             services.AddScoped<IVoteRepository, VoteRepository>();
             services.AddScoped<IVoteService, VoteService>();
+
+            services.AddScoped<IResultService, ResultService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
