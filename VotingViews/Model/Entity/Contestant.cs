@@ -24,5 +24,7 @@ namespace VotingViews.Model.Entity
         public Position Position { get; set; }
 
         public int PositionId { get; set; }
+
+        public ICollection<Vote> Votes { get; set; } = new HashSet<Vote>();
     }
 }

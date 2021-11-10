@@ -35,6 +35,9 @@
                     <td>
                         <a asp-action="VoterVote" asp-controller="Voter" asp-route-id="@position.Id">View</a>
                     </td>
+                    <td>
+                        <a asp-action="Result" asp-controller="Voter" asp-route-id="@position.Id">View Result</a>
+                    </td>
                 </tr>
             }
         </tbody>
