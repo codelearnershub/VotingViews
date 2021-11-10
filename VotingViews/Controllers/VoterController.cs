@@ -23,8 +23,9 @@ namespace VotingViews.Controllers
         private readonly IElectionService _election;
         private readonly IPositionService _position;
         private readonly IContestantService _contestant;
+        private readonly IResultService _result;
 
-        public VoterController(IVoterService service, ApplicationContext context, IElectionService election, IPositionService position, IContestantService contestant, IVoteService vote)
+        public VoterController(IVoterService service, ApplicationContext context, IElectionService election, IPositionService position, IContestantService contestant, IVoteService vote, IResultService result)
         {
             _service = service;
             _context = context;
@@ -32,6 +33,7 @@ namespace VotingViews.Controllers
             _position = position;
             _contestant = contestant;
             _vote = vote;
+            _result = result;
         }
 
         public IActionResult Index()
@@ -47,7 +49,12 @@ namespace VotingViews.Controllers
             return View();
         }
 
-        
+        public IActionResult Result(int? id)
+        {
+            var result = _contestant.GetContestantByPositionId(id.Value);
+
+            return View(result);
+        }
 
         [Authorize(Roles = "voter")]
         public IActionResult Election(Guid code)
