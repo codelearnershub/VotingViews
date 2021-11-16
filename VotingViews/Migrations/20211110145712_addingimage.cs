@@ -4,7 +4,7 @@ using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace VotingViews.Migrations
 {
-    public partial class adding : Migration
+    public partial class addingimage : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,7 +44,8 @@ namespace VotingViews.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    ElectionId = table.Column<int>(nullable: true)
+                    ElectionId = table.Column<int>(nullable: true),
+                    TotalCount = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -141,6 +142,8 @@ namespace VotingViews.Migrations
                     Email = table.Column<string>(nullable: true),
                     Gender = table.Column<string>(nullable: true),
                     ConestantVote = table.Column<int>(nullable: false),
+                    InternalImage = table.Column<byte[]>(nullable: true),
+                    ItemPictureURL = table.Column<string>(maxLength: 1024, nullable: true),
                     PositionId = table.Column<int>(nullable: false),
                     VoterId = table.Column<int>(nullable: true)
                 },

@@ -13,7 +13,7 @@ using VotingViews.Models;
 
 namespace VotingViews.Controllers
 {
-    
+    [Authorize(Roles = "admin")]
     public class PositionController : Controller
     {
         private readonly IPositionService _position;
@@ -25,7 +25,6 @@ namespace VotingViews.Controllers
             _position = position;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         {
@@ -88,7 +87,7 @@ namespace VotingViews.Controllers
             }
             return View(model);
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Details(int? id)
         {
@@ -105,7 +104,7 @@ namespace VotingViews.Controllers
 
             return View(details);
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Details(int id, Position position)
         {

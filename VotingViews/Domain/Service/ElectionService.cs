@@ -36,7 +36,11 @@ namespace VotingViews.Domain.Service
         public ElectionDto GetElectionByCode(Guid code)
         {
             var election = _election.FindByCode(code);
-            
+            if (election == null)
+            {
+                return null;
+            }
+
             return new ElectionDto
             {
                 Name = election.Name,

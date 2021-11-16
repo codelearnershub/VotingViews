@@ -6,6 +6,7 @@ using VotingViews.Domain.IRepository;
 using VotingViews.Domain.IService;
 using VotingViews.DTOs;
 using VotingViews.Model.Entity;
+using VotingViews.Models;
 
 namespace VotingViews.Domain.Service
 {
@@ -24,10 +25,33 @@ namespace VotingViews.Domain.Service
             _position = position;
         }
 
-        public Contestant AddContestant(Contestant model)
+        public Contestant AddContestant(CreateContestant model)
         {
-            var newContestant = _contestant.AddContestant(model);
-            return newContestant;
+            var contestant = new Contestant
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                MiddleName = model.MiddleName,
+                Gender = model.Gender,
+                Email = model.Email,
+                InternalImage = model.InternalImage,
+                ItemPictureURL = model.ItemPictureURL,
+                PositionId = model.PositionId,
+
+            };
+             _contestant.AddContestant(contestant);
+            return new Contestant
+            {
+                FirstName = contestant.FirstName,
+                LastName = contestant.LastName,
+                MiddleName = contestant.MiddleName,
+                Gender = contestant.Gender,
+                Email = contestant.Email,
+                InternalImage = contestant.InternalImage,
+                ItemPictureURL = contestant.ItemPictureURL,
+                PositionId = contestant.PositionId,
+
+            };
         }
 
         public  List<ContestantDto> GetContestantByPositionId(int id)
@@ -53,7 +77,9 @@ namespace VotingViews.Domain.Service
                 Email = contestant.Email,
                 Gender = contestant.Gender,
                 ConestantVote = contestant.ConestantVote,
-                Position = contestant.Position
+               InternalImage = contestant.InternalImage,
+               ItemPictureURL = contestant.ItemPictureURL,
+               Position = contestant.Position
             };
             return contestantDto;
         }
@@ -70,6 +96,8 @@ namespace VotingViews.Domain.Service
             contestant.FirstName = model.FirstName;
             contestant.LastName = model.LastName;
             contestant.MiddleName = model.MiddleName;
+            contestant.InternalImage = model.InternalImage;
+            contestant.ItemPictureURL = model.ItemPictureURL;
 
             _contestant.UpdateContestant(contestant);
             return contestant;

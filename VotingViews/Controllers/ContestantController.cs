@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VotingViews.Domain.IService;
@@ -11,21 +15,23 @@ using VotingViews.Models;
 
 namespace VotingViews.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ContestantController : Controller
     {
         private readonly IContestantService _contestant;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IPositionService _position;
         private readonly IElectionService _election;
         private readonly IVoteService _vote;
 
-        public ContestantController(IContestantService contestant, IPositionService position, IVoteService vote, IElectionService election)
+        public ContestantController(IContestantService contestant, IPositionService position, IVoteService vote, IElectionService election, IWebHostEnvironment webHostEnvironment)
         {
             _contestant = contestant;
             _position = position;
             _vote = vote;
             _election = election;
+            _webHostEnvironment = webHostEnvironment;
         }
-
         [HttpGet]
         public async  Task<IActionResult> Index()
         {
@@ -53,21 +59,25 @@ namespace VotingViews.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CreateContestant model)
+        public IActionResult Create(CreateContestant model, IFormFile file)
         {
-            Contestant contestant = new Contestant
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                MiddleName = model.MiddleName,
-                Gender = model.Gender,
-                Email = model.Email,
-                PositionId = model.PositionId,
-                
-            };
+            
             if (ModelState.IsValid)
             {
-                _contestant.AddContestant(contestant);
+                if (file != null)
+                {
+                    string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "contestants");
+                    Directory.CreateDirectory(imageDirectory);
+                    string contentType = file.ContentType.Split('/')[1];
+                    string fileName = $"{Guid.NewGuid()}.{contentType}";
+                    string fullPath = Path.Combine(imageDirectory, fileName);
+                    using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    model.ItemPictureURL = fileName;
+                }
+                _contestant.AddContestant(model);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);

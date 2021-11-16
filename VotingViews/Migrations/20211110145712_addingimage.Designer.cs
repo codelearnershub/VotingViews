@@ -9,8 +9,8 @@ using VotingViews.Context;
 namespace VotingViews.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210902133302_first")]
-    partial class first
+    [Migration("20211110145712_addingimage")]
+    partial class addingimage
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,11 +60,24 @@ namespace VotingViews.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("ConestantVote")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("InternalImage")
+                        .HasColumnType("varbinary(4000)");
+
+                    b.Property<string>("ItemPictureURL")
+                        .HasColumnType("varchar(1024)")
+                        .HasMaxLength(1024);
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");
@@ -75,9 +88,14 @@ namespace VotingViews.Migrations
                     b.Property<int>("PositionId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("VoterId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PositionId");
+
+                    b.HasIndex("VoterId");
 
                     b.ToTable("Contestants");
                 });
@@ -92,11 +110,14 @@ namespace VotingViews.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(16)");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
@@ -109,11 +130,14 @@ namespace VotingViews.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ElectionId")
+                    b.Property<int?>("ElectionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<int?>("TotalCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -170,10 +194,10 @@ namespace VotingViews.Migrations
                     b.Property<int>("ContestantId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ElectionId")
+                    b.Property<int>("PositionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PositionId")
+                    b.Property<int>("TotalCount")
                         .HasColumnType("int");
 
                     b.Property<int>("VoterId")
@@ -182,8 +206,6 @@ namespace VotingViews.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ContestantId");
-
-                    b.HasIndex("ElectionId");
 
                     b.HasIndex("PositionId");
 
@@ -239,19 +261,21 @@ namespace VotingViews.Migrations
             modelBuilder.Entity("VotingViews.Model.Entity.Contestant", b =>
                 {
                     b.HasOne("VotingViews.Model.Entity.Position", "Position")
-                        .WithMany()
+                        .WithMany("Contestants")
                         .HasForeignKey("PositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("VotingViews.Model.Entity.Voter", null)
+                        .WithMany("VotedContestants")
+                        .HasForeignKey("VoterId");
                 });
 
             modelBuilder.Entity("VotingViews.Model.Entity.Position", b =>
                 {
                     b.HasOne("VotingViews.Model.Entity.Election", "Election")
-                        .WithMany()
-                        .HasForeignKey("ElectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Positions")
+                        .HasForeignKey("ElectionId");
                 });
 
             modelBuilder.Entity("VotingViews.Model.Entity.User", b =>
@@ -266,14 +290,8 @@ namespace VotingViews.Migrations
             modelBuilder.Entity("VotingViews.Model.Entity.Vote", b =>
                 {
                     b.HasOne("VotingViews.Model.Entity.Contestant", "Contestant")
-                        .WithMany()
+                        .WithMany("Votes")
                         .HasForeignKey("ContestantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VotingViews.Model.Entity.Election", "Election")
-                        .WithMany()
-                        .HasForeignKey("ElectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

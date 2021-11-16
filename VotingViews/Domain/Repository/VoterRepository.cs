@@ -21,7 +21,7 @@ namespace VotingViews.Domain.Repository
 
         public Voter FindbyId(int id)
         {
-            return _context.Voters.SingleOrDefault(a => a.Id == id);
+            return _context.Voters.FirstOrDefault(a => a.Id == id);
         }
 
         public Voter FindByEmail(string email)

@@ -37,7 +37,8 @@ namespace VotingViews.Domain.Repository
         {
             return _context.Elections
                 .Include(c=>c.Positions)
-                .FirstOrDefault(c => c.Code == code);
+                .SingleOrDefault(c => c.Code == code);
+           
         }
 
         public Election FindbyId(int id)

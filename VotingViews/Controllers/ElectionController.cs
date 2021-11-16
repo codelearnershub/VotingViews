@@ -14,7 +14,7 @@ using VotingViews.Models;
 
 namespace VotingViews.Controllers
 {
-    
+    [Authorize(Roles = "admin")]
     public class ElectionController : Controller
     {
         private readonly IElectionService _service;
@@ -47,7 +47,8 @@ namespace VotingViews.Controllers
             CreateElectionDto create = new CreateElectionDto
             {
                 Name = model.Name,
-                Status = model.Status
+                StartDate = model.StartDate,
+                EndDate = model.EndDate
             };
             if (ModelState.IsValid)
             {

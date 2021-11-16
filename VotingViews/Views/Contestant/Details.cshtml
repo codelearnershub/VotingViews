@@ -1,52 +1,64 @@
 ﻿@model VotingViews.DTOs.ContestantDto
 
 @{
-    ViewData["pageTitle"] = "Contestant Details";
+    ViewData["pageTitle"] = "Contestant Profile";
     Layout = "_DashboardLayoutAdmin";
 }
 
-<div>
-    <h4>Contestant</h4>
+<div  style=" max-width: 70%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        margin-left:auto;
+        margin-right:auto;">
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
+    <div style="margin-left:30%; justify-content:center;">
+        <img class="logo rounded-circle" style="        height: 200px;
+        width: 200px;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);"
+         src="~/contestants/@Model.ItemPictureURL" />
+    </div>
+    <dl class="row card-columns">
+
+        <dt class="col-sm-5">
+           First Name
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FirstName)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MiddleName)
+        <dt class="col-sm-5">
+           Middle Name
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MiddleName)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
+        <dt class="col-sm-5">
+           Last Name
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LastName)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
+        <dt class="col-sm-5">
+           Gender
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Gender)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+        <dt class="col-sm-5">
+           Email
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Position.Election.Name)
+        <dt class="col-sm-5">
+            Election Name
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Position.Election.Name)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Position.Name)
+        <dt class="col-sm-5">
+            Election Position
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Position.Name)
@@ -54,6 +66,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Update", "Update", new {  id = Model.Id  }) |
+    @Html.ActionLink("Update", "Update", new { id = Model.Id }) |
     <a asp-action="Index">Back to List</a>
 </div>

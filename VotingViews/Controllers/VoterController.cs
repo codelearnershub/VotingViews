@@ -15,6 +15,7 @@ using VotingViews.Models;
 
 namespace VotingViews.Controllers
 {
+    [AllowAnonymous]
     public class VoterController : Controller
     {
         private readonly IVoterService _service;
@@ -36,18 +37,22 @@ namespace VotingViews.Controllers
             _result = result;
         }
 
+        [Authorize(Roles ="admin")]
         public IActionResult Index()
         {
             var model = _service.GetAll();
             return View(model);
         }
 
+        [HttpGet]
         [Authorize(Roles = "voter")]
         public IActionResult DashBoard()
         {
 
             return View();
         }
+
+       
 
         public IActionResult Result(int? id)
         {
@@ -59,11 +64,23 @@ namespace VotingViews.Controllers
         [Authorize(Roles = "voter")]
         public IActionResult Election(Guid code)
         {
-            var elect = _election.GetElectionByCode(code);
-            if (!code.Equals(null))
+            Guid vcode = Guid.Empty;  
+            if (code == vcode)
             {
+                ViewBag.Message = "Enter Election Code";
+                return RedirectToAction(nameof(DashBoard));
+            }
+            else
+            {
+                var elect = _election.GetElectionByCode(code);
+                if (elect == null )
+                {
+                    ViewBag.Message = "Invalid Election Code";
+                    return RedirectToAction(nameof(DashBoard));
+                }
+
                 var election = _position.GetPositionByElectionCode(code);
-            
+
                 if (elect.StartDate > DateTime.Now)
                 {
                     return RedirectToAction(nameof(PendingElection));
@@ -76,9 +93,10 @@ namespace VotingViews.Controllers
                 {
                     return RedirectToAction(nameof(CompletedElection));
                 }
+               
             }
-            ViewBag.CodeError = "Invalid Election Code";
             return View();
+
         }
 
         public IActionResult PendingElection()
@@ -124,14 +142,14 @@ namespace VotingViews.Controllers
             return View(position);
         }
 
-
         [Authorize(Roles = "voter")]
         public IActionResult Vote(int positionId, int contestantId)
         {
             var loggedInUserEmail = User.FindFirst(ClaimTypes.Name).Value;
 
             _vote.Vote(positionId, loggedInUserEmail, contestantId);
-            return View();
+            //string resultUrl = string.Format("Voter/Result?positionId ={id}", Result(positionId));
+            return RedirectToAction("Result", "Voter", new { id = positionId });
         }
 
         [HttpPost]
@@ -170,22 +188,34 @@ namespace VotingViews.Controllers
 
         [Authorize(Roles = "voter")]
         [HttpGet]
-        public IActionResult Update()
+        public IActionResult Update(int? id)
         {
-            var email = User.FindFirst(ClaimTypes.Name).Value;
-            var update = _service.FindByEmail(email);
+            var update = _service.FindById(id.Value);
+            if (update == null)
+            {
+                return NotFound();
+            }
             return View(update);
         }
         [Authorize(Roles = "voter")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(int id, Voter voter)
+        public IActionResult Update(int id, UpdateVoterVM voter)
         {
+            UpdateVoterDto voterDto = new UpdateVoterDto
+            {
+                FirstName = voter.FirstName,
+                LastName = voter.LastName,
+                MiddleName = voter.MiddleName,
+                Password = voter.Password,
+                Address = voter.Address
+            };
 
             if (ModelState.IsValid)
             {
-                _service.Update(voter);
-                return RedirectToAction(nameof(Index));
+                _service.Update(voterDto, id);
+
+                return RedirectToAction(nameof(DashBoard));
             }
             return View(voter);
         }

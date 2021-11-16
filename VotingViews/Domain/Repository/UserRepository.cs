@@ -48,6 +48,12 @@ namespace VotingViews.Domain.Repository
             return _context.Users.Any(model);
         }
 
+        public IQueryable<User> Query()
+        {
+            return _context.Users
+                .AsQueryable();
+        }
+
         public List<User> GetAll()
         {
             return _context.Users.ToList();

@@ -2,7 +2,7 @@
 
 namespace VotingViews.Migrations
 {
-    public partial class secondadded : Migration
+    public partial class entity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

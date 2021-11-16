@@ -12,9 +12,6 @@
         <thead>
             <tr>
                 <th>
-                    Id
-                </th>
-                <th>
                     Name
                 </th>
                 <th>
@@ -26,9 +23,6 @@
             @foreach (var position in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => position.Id)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => position.Name)
                     </td>

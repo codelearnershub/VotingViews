@@ -49,6 +49,8 @@ namespace VotingViews.Domain.Repository
                 Email = c.Email,
                 Gender = c.Gender,
                 ConestantVote = c.ConestantVote,
+                InternalImage =c.InternalImage,
+                ItemPictureURL = c.ItemPictureURL,
                 Position = c.Position,
                 PositionId = c.PositionId
             }).ToList();
@@ -98,6 +100,8 @@ namespace VotingViews.Domain.Repository
                     Email = c.Email,
                     Gender = c.Gender,
                     ConestantVote = c.ConestantVote,
+                    InternalImage = c.InternalImage,
+                    ItemPictureURL = c.ItemPictureURL,
                     Position = c.Position,
                     PositionId = c.PositionId
                 }).ToListAsync();

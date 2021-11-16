@@ -1,0 +1,25 @@
+﻿@model VotingViews.Models.MailViewModel
+@{
+    ViewData["Title"] = "SendEmail";
+    Layout = "_DashboardLayoutVoter";
+}
+<div class="container" style="align-content:center;">
+    <fieldset>
+        <legend>
+            Send Email
+        </legend>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary()
+            <p>Subject: </p>
+            <p>@Html.TextBoxFor(m => m.Subject)</p>
+            <p>Body: </p>
+            <p style="max-width:200%;">
+                <textarea id="Body" name="Body" style="margin-top: 0px; margin-bottom: 0px;width:700px; height: 500px;" asp-for="Body"></textarea>
+                <input type="submit" value="Send" />
+            </p>
+
+
+        }
+    </fieldset>
+</div>
