@@ -15,7 +15,7 @@ using VotingViews.Models;
 
 namespace VotingViews.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Roles ="voter")]
     public class VoterController : Controller
     {
         private readonly IVoterService _service;
@@ -54,7 +54,7 @@ namespace VotingViews.Controllers
 
        
 
-        public IActionResult Result(int? id)
+        public IActionResult Result(int? id )
         {
             var result = _contestant.GetContestantByPositionId(id.Value);
 
@@ -83,15 +83,15 @@ namespace VotingViews.Controllers
 
                 if (elect.StartDate > DateTime.Now)
                 {
-                    return RedirectToAction(nameof(PendingElection));
+                    return View(elect);
                 }
                 else if (elect.StartDate <= DateTime.Now && elect.EndDate > DateTime.Now)
                 {
-                    return View(election);
+                    return View(elect);
                 }
                 else if (elect.EndDate <= DateTime.Now)
                 {
-                    return RedirectToAction(nameof(CompletedElection));
+                    return View(elect);
                 }
                
             }
@@ -99,10 +99,6 @@ namespace VotingViews.Controllers
 
         }
 
-        public IActionResult PendingElection()
-        {
-            return View();
-        }
 
         public IActionResult CompletedElection()
         {
@@ -147,18 +143,41 @@ namespace VotingViews.Controllers
         {
             var loggedInUserEmail = User.FindFirst(ClaimTypes.Name).Value;
 
-            _vote.Vote(positionId, loggedInUserEmail, contestantId);
-            //string resultUrl = string.Format("Voter/Result?positionId ={id}", Result(positionId));
-            return RedirectToAction("Result", "Voter", new { id = positionId });
+            var vote = _vote.Vote(positionId, loggedInUserEmail, contestantId);
+            string message = "";
+            if (vote == null)
+            {
+                message = "You Have already voted for this Position before.";
+                //ViewBag.Message = message;
+                //var position = _position.GetPositionById(id);
+                // View(position);
+            }
+            else
+            {
+                message = "Thanks for Voting.";
+                //ViewBag.Message = message;
+                //var position = _position.GetPositionById(id);
+                //return View(position);
+            }
+
+            return RedirectToAction("AlreadyVoted", "Voter", new { id = positionId, message });
+            
+        }
+
+        public IActionResult AlreadyVoted(int id, string message)
+        {
+            ViewBag.Message = message;
+            var position = _position.GetPositionById(id);
+            return View(position);
+
+           
         }
 
         [HttpPost]
-        public IActionResult Vote()
+        public IActionResult AlreadyVoted(Guid code)
         {
-            string vote = "Already Voted";
-
-            ViewBag.Vote = vote;
-            return View(ViewBag.vote);
+            var listPosition = _position.GetPositionByElectionCode(code);
+            return View(listPosition);
         }
 
         [Authorize(Roles = "admin")]
@@ -224,6 +243,22 @@ namespace VotingViews.Controllers
         public IActionResult UpdatePassword()
         {
             return RedirectToAction(nameof(Update));
+        }
+
+        public IActionResult ContestantDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var details = _contestant.GetContestantById(id.Value);
+            if (details == null)
+            {
+                return NotFound();
+            }
+
+            return View(details);
         }
     }
 }

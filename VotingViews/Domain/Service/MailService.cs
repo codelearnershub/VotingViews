@@ -35,7 +35,7 @@ namespace VotingViews.Domain.Service
                 Text = model.Body
             };
 
-            string uEmail = user.Email;
+            
 
             //Creating of SIMPLE MAIL TRANSFER PROTOCOL(SMTP) Client
             SmtpClient client = new SmtpClient();
@@ -43,7 +43,7 @@ namespace VotingViews.Domain.Service
             try
             {
                 client.Connect("smtp.gmail.com", 465, true);
-                client.Authenticate(uEmail, user.Password);
+                 client.Authenticate(user.Email, user.Password);
                 client.Send(mail);
                 return sent;
             }

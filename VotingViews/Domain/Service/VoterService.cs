@@ -52,12 +52,14 @@ namespace VotingViews.Domain.Service
         {
             Voter newVoter = new Voter
             {
+                Id = model.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 MiddleName = model.MiddleName,
                 Email = model.Email,
                 Password = model.Password,
-                Address = model.Address
+                Address = model.Address,
+                UserId = model.UserId
             };
 
             return _voter.AddVoter(newVoter);

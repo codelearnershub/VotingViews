@@ -4,7 +4,7 @@
 <nav id="sidebar">
     <div class="p-4 pt-5">
 
-        <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../../wwwroot/images/Image/Votex-image.png);"></a>
+        <a href="#" class="img logo rounded-circle mb-5" style="background-image: url('/images/Image/Votex-image.png');"></a>
         <ul class="list-unstyled components mb-5 ">
             <li class="active">
                 <a class="nav-link" asp-controller="Admin" asp-action="DashBoard">Home</a>
@@ -36,6 +36,9 @@
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
                         <a class="nav-link text-light" asp-controller="Contestant" asp-action="Index">List Of Contestants</a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-light" asp-controller="Contestant" asp-action="Create">Register Contestant</a>
                     </li>
                 </ul>
             </li>

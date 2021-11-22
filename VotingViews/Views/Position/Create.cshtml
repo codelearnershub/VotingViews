@@ -1,44 +1,48 @@
 ﻿@model VotingViews.Model.Entity.Position
 
 @{
-    ViewData["pageTitle"] = "Create Position";
     Layout = "_DashboardLayoutAdmin";
 }
 
-<hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" >
+    <div class="justify-content-center" style="max-width: 70%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        padding-left:20px;
+        padding-top:20px;
+        padding-right:20px;
+        padding-bottom:20px;
+        margin-left:auto;
+        margin-right:auto;">
+
+        <h4>Create Position</h4>
+        <hr />
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Position Name</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Election" class="text-danger"></label>
+                <label asp-for="Election" class="text-danger">Election Name</label>
                 <select class="form-control" name="ElectionId" asp-items="@ViewBag.Elections"></select>
                 <span asp-validation-for="ElectionId" class="text-danger"></span>
             </div>
-
-            @*<div class="form-group">
-                @Html.LabelFor(x=> Model.Election, htmlAttributes: new { @class ="control-label col-md-2"})
-                <div class="col-md-5">
-                    @Html.DropDownListFor(x=> Model.Election, new SelectList(Model.Elections, "Value", "Text"), htmlAttributes : new { @class = " form-control", id = "Election" })
-                    @Html.ValidationMessageFor(x=> x.Election, "", new { @class ="text-danger"})
-                </div>
-            </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <div>
+                <a asp-action="Index">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

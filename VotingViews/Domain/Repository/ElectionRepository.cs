@@ -35,10 +35,11 @@ namespace VotingViews.Domain.Repository
 
         public Election FindByCode(Guid code)
         {
-            return _context.Elections
+            var election= _context.Elections
                 .Include(c=>c.Positions)
+                .ThenInclude(q=>q.Contestants)
                 .SingleOrDefault(c => c.Code == code);
-           
+            return election;
         }
 
         public Election FindbyId(int id)

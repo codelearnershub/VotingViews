@@ -19,6 +19,8 @@ namespace VotingViews.Domain.IRepository
 
         public List<Position> GetPositionByElectionCode(Guid code);
 
+        public List<Position> GetPositionByElectionId(int id);
+
         public Position FindPositionByName(string name);
 
         public Position UpdatePosition(Position model);

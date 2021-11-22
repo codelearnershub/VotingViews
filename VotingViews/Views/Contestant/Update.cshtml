@@ -1,15 +1,30 @@
 ﻿@model VotingViews.DTOs.ContestantDto
 
 @{
-    ViewData["pageTitle"] = "Update Contestant";
     Layout = "_DashboardLayoutAdmin";
 }
 
-<hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="justify-content-center" style="        max-width: 70%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        padding-left:20px;
+        padding-top:20px;
+        padding-right:20px;
+        padding-bottom:20px;
+        margin-left:auto;
+        margin-right:auto;">
+        <h4>Update Contestant</h4>
+        <hr />
         <form asp-action="Update">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Select Image</label>
+                <input name="file" type="file" class="form-control" />
+                <span asp-validation-for="ItemPictureURL" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label">First Name</label>
                 <input asp-for="FirstName" class="form-control" />
@@ -30,17 +45,17 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <input type="hidden" name="ItemPictureUrl" value="@Model.ItemPictureURL" />
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

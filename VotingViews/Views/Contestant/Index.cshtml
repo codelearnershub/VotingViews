@@ -5,43 +5,54 @@
     Layout = "_DashboardLayoutAdmin";
 }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                FullName
-            </th>
-            <th>
-                Election
-            </th>
-            <th>
-                Position
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position.Election.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Update", "Update", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+
+<div class="justify-content-center" style="max-width: 100%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        margin-top:1px;
+        margin-left:auto;
+        margin-right:auto;">
+    <p>
+        <a asp-action="Create">+Register New Contestant</a>
+    </p>
+    <table class="table table-active table-hover">
+        <thead>
+            <tr>
+                <th>
+                    FullName
+                </th>
+                <th>
+                    Election
+                </th>
+                <th>
+                    Position
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img class="logo rounded-circle" style="height:50px; width:50px" src="~/contestants/@item.ItemPictureURL" />
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Position.Election.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Position.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Update", "Update", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

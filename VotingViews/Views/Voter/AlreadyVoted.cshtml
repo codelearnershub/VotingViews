@@ -1,0 +1,10 @@
+﻿@model VotingViews.DTOs.PositionDto
+@{ 
+    Layout = "_DashboardLayoutVoter";
+}
+
+<div>
+    <h3>@ViewBag.Message<a asp-action="Result" asp-controller="Voter" asp-route-id="@Model.Id">Click Here</a> to view Result</h3>
+
+
+</div>
