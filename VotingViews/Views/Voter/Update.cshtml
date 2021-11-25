@@ -1,15 +1,23 @@
-﻿@model VotingViews.Model.Entity.Voter
+﻿@model VotingViews.DTOs.VoterDto
 
 @{
+    Layout = "_DashboardLayoutVoter";
     ViewData["Title"] = "Update";
 }
 
-<h1>Update</h1>
-
-<h4>Voter</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div >
+    <div class="justify-content-center" style="max-width: 60%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        padding-left:20px;
+        padding-right:20px;
+        padding-bottom:20px;
+        padding-top:20px;
+        margin-left:auto;
+        margin-right:auto;">
+        <h4>Update Your Profile</h4>
+        <hr />
         <form asp-action="Update">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -28,35 +36,20 @@
                 <span asp-validation-for="MiddleName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <a asp-action="DashBoard">Home</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

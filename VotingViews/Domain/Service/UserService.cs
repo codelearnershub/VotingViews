@@ -37,12 +37,17 @@ namespace VotingViews.Domain.Service
             var user = _user.FindByEmail(userDetails.Email);
 
             if (user == null)
+            {
                 throw new Exception("Invalid Email");
+            }
+              
 
             string hashedPassword = HashPassword(userDetails.Password, user.HashSalt);
 
             if (hashedPassword != user.PasswordHash)
+            {
                 throw new Exception("Invalid Password");
+            }
 
             return new LoggedInUserDto
             {
@@ -50,6 +55,7 @@ namespace VotingViews.Domain.Service
                 Role = _role.GetRole(user.RoleId)
             };
         }
+       
 
         public RegisteredUserDto Register(RegisterUserDto userDetails)
         {
@@ -75,7 +81,7 @@ namespace VotingViews.Domain.Service
 
             if (userDetails.Type.ToLower().Equals("voter"))
             {
-                Voter newVoter = new Voter
+                CreateVoterDto newVoter = new CreateVoterDto
                 {
                     UserId = user.Id,
                     FirstName = userDetails.FirstName,
@@ -105,6 +111,8 @@ namespace VotingViews.Domain.Service
                     FirstName = userDetails.FirstName,
                     LastName = userDetails.LastName,
                     MiddleName = userDetails.MiddleName,
+                    Email = userDetails.Email,
+                    Password = userDetails.Password,
                     Address = userDetails.Address
                 };
 

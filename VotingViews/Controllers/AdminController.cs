@@ -12,7 +12,7 @@ using VotingViews.Models;
 
 namespace VotingViews.Controllers
 {
-    
+    [Authorize(Roles ="admin")]
     public class AdminController : Controller
     {
         private readonly IAdminService _service;

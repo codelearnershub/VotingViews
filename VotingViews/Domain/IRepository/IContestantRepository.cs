@@ -13,7 +13,7 @@ namespace VotingViews.Domain.IRepository
 
         public Contestant FindContestantById(int id);
 
-        Task<List<ContestantDto>> GetAll();
+       public List<ContestantDto> GetAll();
 
         Task VoteContestant(int id, string email);
 

@@ -35,14 +35,19 @@ namespace VotingViews.Domain.Repository
 
         public Election FindByCode(Guid code)
         {
-            return _context.Elections
+            var election= _context.Elections
                 .Include(c=>c.Positions)
-                .FirstOrDefault(c => c.Code == code);
+                .ThenInclude(q=>q.Contestants)
+                .SingleOrDefault(c => c.Code == code);
+            return election;
         }
 
         public Election FindbyId(int id)
         {
-            return _context.Elections.FirstOrDefault(a=>a.Id == id);
+            return _context.Elections
+                .Include(c => c.Positions)
+                .ThenInclude(q => q.Contestants)
+                .FirstOrDefault(a=>a.Id == id);
         }
 
         public bool Exists(int id)

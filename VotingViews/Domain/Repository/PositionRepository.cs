@@ -52,6 +52,14 @@ namespace VotingViews.Domain.Repository
             return positions;
         }
 
+        public List<Position> GetPositionByElectionId(int id)
+        {
+            var election = _election.FindbyId(id);
+
+            var positions = election.Positions.ToList();
+            return positions;
+        }
+
         public Position FindPositionByName(string name)
         {
             return _context.Positions.Find(name);

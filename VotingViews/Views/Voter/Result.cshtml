@@ -1,41 +1,47 @@
-﻿@model IEnumerable<VotingViews.DTOs.ContestantDto>
+﻿@model VotingViews.DTOs.ResultPageDto
 
 @{
     ViewData["Title"] = "Result";
     Layout = "_DashboardLayoutVoter";
 }
 
-<h1>Result</h1>
+<h1 class="text-center">Result</h1>
 &ensp;
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-               Contestant Name
-            </th>>
-            <th>
-                Total Vote
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="justify-content-center" style="        max-width: 70%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        margin-left:auto;
+        margin-right:auto;">
+    <table class="table table-active table-hover">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConestantVote)
-                </td>
+                <th>
+                    Contestant Name
+                </th>
+                <th>
+                    Total Vote
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Contestants)
+            {
+                <tr>
+                    <td>
+                        <img class="logo rounded-circle" style="height:50px; width:50px" src="~/contestants/@item.ItemPictureURL" />
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td class="align-content-center" style="padding-left:10%">
+                        @Html.DisplayFor(modelItem => item.ConestantVote)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <h6>Return Back to <a asp-action="Election" asp-controller="Voter" asp-route-code="@Model.Code">Election</a></h6>
+</div>
+

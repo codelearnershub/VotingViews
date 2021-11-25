@@ -1,21 +1,74 @@
 ﻿@model dynamic
-
 @{
-    ViewData["Title"] = "DashBoard";
-    Layout = "_DashboardLayoutVoter";
+    Layout = "";
 }
+<!Doctype html>
+<html lang="en">
+<head>
+    <title>@ViewData["pageTitle"] - VotingViews</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<h1>DashBoard</h1>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
-<h5>Welcome! @User.Identity.Name</h5>
-<br />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+</head>
+<body>
 
-<p>Please input your Election Code that was sent to you below</p>
+    <div class="wrapper d-flex align-items-stretch">
 
-<form method="post">
-    <input type="text" name="code" placeholder="Text" />
-    <button type="submit" asp-controller="Voter" asp-action="Election" value="Search" id="Button">Search</button>
-    @ViewBag.CodeError
-</form>
+
+
+        <!-- Page Content  -->
+        <div id="content" class="p-4 p-md-5">
+
+            <partial name="_DashboardTopBarVoter" />
+
+
+            <div class="row container">
+                <p>@ViewBag.Message</p>
+                <div class="col-6 p-auto m-auto">
+                    <h1>DashBoard</h1>
+
+                    <h5>Welcome! @User.Identity.Name</h5>
+                    @*<br />
+                    <div>
+                        <p>
+                            Create an Election By Sending email To the Admin <b><a asp-action="SendEmail" asp-controller="SendMail">Here</a></b>
+                        </p>
+                    </div>*@
+                    <br />
+                    <div>
+                        <p>Please input your Election Code that was given to you below</p>
+                        <form method="post" class="needs-validation">
+
+                            <input type="text" name="code" placeholder="Text" />
+                            <button type="submit" asp-controller="Voter" asp-action="Election" value="Search" id="Button">Enter</button>
+                            @if (!string.IsNullOrEmpty(ViewBag.Message))
+                            {
+                                <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+                            }
+
+                        </form>
+
+                    </div>
+
+                </div>
+                <div class="col-6">
+                    <figure> <img style="height:500px; width:500vw; max-width:120%; max-height:100%;" src="~/images/Image/voting_imag.png" /></figure>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.js"></script>
+    <script src="~/lib//bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+</html>
+
 
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using VotingViews.Models;
 
 namespace VotingViews.Controllers
 {
+    [AllowAnonymous]
     public class AuthController : Controller
     {
         private readonly IAdminService _adminService;
@@ -147,7 +149,7 @@ namespace VotingViews.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Home");
         }
 
     }

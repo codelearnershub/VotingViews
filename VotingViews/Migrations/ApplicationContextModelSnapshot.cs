@@ -14,7 +14,7 @@ namespace VotingViews.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.14")
+                .HasAnnotation("ProductVersion", "3.1.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("VotingViews.Model.Entity.Admin", b =>
@@ -69,6 +69,13 @@ namespace VotingViews.Migrations
 
                     b.Property<string>("Gender")
                         .HasColumnType("text");
+
+                    b.Property<byte[]>("InternalImage")
+                        .HasColumnType("varbinary(4000)");
+
+                    b.Property<string>("ItemPictureURL")
+                        .HasColumnType("varchar(1024)")
+                        .HasMaxLength(1024);
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");
@@ -281,7 +288,7 @@ namespace VotingViews.Migrations
             modelBuilder.Entity("VotingViews.Model.Entity.Vote", b =>
                 {
                     b.HasOne("VotingViews.Model.Entity.Contestant", "Contestant")
-                        .WithMany()
+                        .WithMany("Votes")
                         .HasForeignKey("ContestantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

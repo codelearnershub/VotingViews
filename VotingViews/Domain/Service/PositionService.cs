@@ -43,6 +43,16 @@ namespace VotingViews.Domain.Service
                 }).ToList();
         }
 
+        //public List<PositionDto> GetPositionByElectionId(int id)
+        //{
+        //    return _position.GetPositionByElectionId(id)
+        //       .Select(p => new PositionDto
+        //       {
+        //           Id = p.Id,
+        //           Name = p.Name,
+        //       }).ToList();
+        //}
+
         public IEnumerable<PositionDto> GetPositionByElectionId(int electionId)
         {
             _election.FindbyId(electionId);
@@ -69,7 +79,10 @@ namespace VotingViews.Domain.Service
 
             return new PositionDto
             {
+                Id = position.Id,
                 Name = position.Name,
+                Election = position.Election,
+                ElectionId = position.ElectionId,
                 TotalCount = position.TotalCount
             };
         }

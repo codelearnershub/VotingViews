@@ -1,59 +1,77 @@
 ﻿@model VotingViews.DTOs.ContestantDto
 
 @{
-    ViewData["pageTitle"] = "Contestant Details";
+   
     Layout = "_DashboardLayoutAdmin";
 }
-
-<div>
-    <h4>Contestant</h4>
+<h4 class="text-center">Contestant Profile</h4>
+<div class="justify-content-center" style="max-width: 60%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        padding-left:20px;
+        padding-right:20px;
+        padding-bottom:20px;
+        padding-top:20px;
+        margin-top:1px;
+        margin-left:auto;
+        margin-right:auto;">
+    <div style="margin-left:30%; justify-content:center;">
+        <img class="logo rounded-circle" style="        height: 200px;
+        width: 200px;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);"
+             src="~/contestants/@Model.ItemPictureURL" />
+    </div>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
+    <dl class="row columns"  style"justify-content:center;">
+
+        <dt class="col-sm-4">
+            First Name
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.FirstName)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MiddleName)
+        <dt class="col-sm-4">
+            Middle Name
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.MiddleName)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
+        <dt class="col-sm-4">
+            Last Name
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.LastName)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
+        <dt class="col-sm-4">
+            Gender
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Gender)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+        <dt class="col-sm-4">
+            Email
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Email)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Position.Election.Name)
+        <dt class="col-sm-4">
+            Election Name
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Position.Election.Name)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Position.Name)
+        <dt class="col-sm-4">
+            Position
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Position.Name)
         </dd>
     </dl>
-</div>
-<div>
-    @Html.ActionLink("Update", "Update", new {  id = Model.Id  }) |
-    <a asp-action="Index">Back to List</a>
+    <div>
+        @Html.ActionLink("Update", "Update", new { id = Model.Id }) |
+        <a asp-action="Index">Back to List</a>
+    </div>
+
 </div>

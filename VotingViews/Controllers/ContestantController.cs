@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VotingViews.Domain.IService;
@@ -11,28 +15,56 @@ using VotingViews.Models;
 
 namespace VotingViews.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ContestantController : Controller
     {
         private readonly IContestantService _contestant;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IPositionService _position;
         private readonly IElectionService _election;
         private readonly IVoteService _vote;
 
-        public ContestantController(IContestantService contestant, IPositionService position, IVoteService vote, IElectionService election)
+        public ContestantController(IContestantService contestant, IPositionService position, IVoteService vote, IElectionService election, IWebHostEnvironment webHostEnvironment)
         {
             _contestant = contestant;
             _position = position;
             _vote = vote;
             _election = election;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
-        public async  Task<IActionResult> Index()
+        public IActionResult Index(string sortOrder, string searchString)
         {
-           var model =await _contestant.ListOfContestants();
-            return View(model);
-        }
+            ViewBag.PositionNameSortParm = string.IsNullOrEmpty(sortOrder) ? "positionName_desc" : "";
+            ViewBag.ElectionNameSortParm = sortOrder == "Election Name" ? "electionName_desc" : "Election Name";
 
+            var contestants = from c in _contestant.ListOfContestants()
+                              select c;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                contestants = contestants.Where(s => s.FullName.Contains(searchString)
+                                       || s.Position.Election.Name.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "PositionName_desc":
+                    contestants = contestants.OrderByDescending(s => s.Position.Name);
+                    break;
+                case "Election Name":
+                    contestants = contestants.OrderBy(s => s.Position.Election.Name);
+                    break;
+                case "electionName_desc":
+                    contestants = contestants.OrderByDescending(s => s.Position.Election.Name);
+                    break;
+                default:
+                    contestants = contestants.OrderBy(s => s.FullName);
+                    break;
+            }
+
+            return View(contestants.ToList());
+        }
         //public IActionResult Vote(int id)
         //{
         //    _vote.Vote(id, User.Identity.Name);
@@ -42,7 +74,7 @@ namespace VotingViews.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            List<ElectionDto> elections =_election.GetAllElections();
+            List<ElectionDto> elections = _election.GetAllElections();
             List<SelectListItem> listContestants = new List<SelectListItem>();
             foreach (ElectionDto election in elections)
             {
@@ -53,21 +85,25 @@ namespace VotingViews.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CreateContestant model)
+        public IActionResult Create(CreateContestant model, IFormFile file)
         {
-            Contestant contestant = new Contestant
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                MiddleName = model.MiddleName,
-                Gender = model.Gender,
-                Email = model.Email,
-                PositionId = model.PositionId,
-                
-            };
+
             if (ModelState.IsValid)
             {
-                _contestant.AddContestant(contestant);
+                if (file != null)
+                {
+                    string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "contestants");
+                    Directory.CreateDirectory(imageDirectory);
+                    string contentType = file.ContentType.Split('/')[1];
+                    string fileName = $"{Guid.NewGuid()}.{contentType}";
+                    string fullPath = Path.Combine(imageDirectory, fileName);
+                    using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    model.ItemPictureURL = fileName;
+                }
+                _contestant.AddContestant(model);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -145,16 +181,16 @@ namespace VotingViews.Controllers
             return View(details);
         }
         [HttpPost]
-        public IActionResult Details( Contestant contestant)
+        public IActionResult Details(Contestant contestant)
         {
             _contestant.GetContestantById(contestant.Id);
             ContestantVM model = new ContestantVM
             {
-               FirstName = contestant.FirstName,
-               LastName = contestant.LastName,
-               MiddleName = contestant.MiddleName,
-               Gender = contestant.Gender,
-               Email= contestant.Email
+                FirstName = contestant.FirstName,
+                LastName = contestant.LastName,
+                MiddleName = contestant.MiddleName,
+                Gender = contestant.Gender,
+                Email = contestant.Email
             };
             return View(model);
         }

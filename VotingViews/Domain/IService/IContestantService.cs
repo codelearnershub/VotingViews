@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VotingViews.DTOs;
 using VotingViews.Model.Entity;
+using VotingViews.Models;
 
 namespace VotingViews.Domain.IService
 {
@@ -11,9 +12,9 @@ namespace VotingViews.Domain.IService
     {
         public ContestantDto GetContestantById(int? id);
 
-        public Contestant AddContestant(Contestant model);
+        public Contestant AddContestant(CreateContestant model);
 
-        Task<List<ContestantDto>> ListOfContestants();
+        public List<ContestantDto> ListOfContestants();
 
         Task VoteContestant(int id, string email);
 

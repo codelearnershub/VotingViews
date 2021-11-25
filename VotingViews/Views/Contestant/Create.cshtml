@@ -1,14 +1,25 @@
 ﻿@model VotingViews.Models.CreateContestant
 
 @{
-    ViewData["pageTitle"] = "Create Contestant";
     Layout = "_DashboardLayoutAdmin";
 }
 
-<hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="justify-content-center" style="max-width: 60%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        padding-left:20px;
+        padding-right:20px;
+        padding-bottom:20px;
+        padding-top:20px;
+        margin-top:1px;
+        margin-left:auto;
+        margin-right:auto;">
+        <h4>Register Contestant</h4>
+        <hr />
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -38,9 +49,13 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-           
             <div class="form-group">
-                <label asp-for="ElectionId" class="control-label">Select Equipment</label>
+                <label class="control-label">Select Image</label>
+                <input name="file" type="file" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ElectionId" class="control-label">Select Election</label>
                 <select asp-for="ElectionId" asp-items="@ViewBag.Elections" class="form-control">
                     <option disabled selected>--Select Election--</option>
 
@@ -49,7 +64,7 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="PositionId" class="control-label">Select Equipment</label>
+                <label asp-for="PositionId" class="control-label">Select Position</label>
                 <select asp-for="PositionId" class="form-control">
                     <option disabled selected>--Select Position--</option>
 
@@ -62,11 +77,11 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
-    </div>
-</div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    </div>
 </div>
 
 @section Scripts {

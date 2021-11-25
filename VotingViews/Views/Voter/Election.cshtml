@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VotingViews.DTOs.PositionDto>
+﻿@model VotingViews.DTOs.ElectionDto
 
 @{
     Layout = "_DashboardLayoutVoter";
@@ -7,39 +7,147 @@
 <div>
 
 
+    @if (Model.StartDate > DateTime.Now)
+    {
+        <h1>Name: @Model.Name</h1>
+        <p class="alert alert-warning alert-dismissible" role="alert">The Election is Yet Start. Please come back by @Model.StartDate for the election. Thank You</p>
+        <div class="justify-content-center" style="max-width: 70%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        margin-top:1px;
+        margin-left:auto;
+        margin-right:auto;">
+            <table class="table table-active table-hover">
+                @foreach (var position in Model.Positions)
+                {
+                    <tr>
+                        <td>
+                            <b>Position Name:</b> @Html.DisplayFor(modelItem => position.Name)
+                        </td>
+                    </tr>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Id
-                </th>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Action
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var position in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => position.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => position.Name)
-                    </td>
-                    <td>
-                        <a asp-action="VoterVote" asp-controller="Voter" asp-route-id="@position.Id">View</a>
-                    </td>
-                    <td>
-                        <a asp-action="Result" asp-controller="Voter" asp-route-id="@position.Id">View Result</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    foreach (var contestant in position.Contestants.OrderBy(c => c.ConestantVote))
+                    {
+                        <tr>
+                            <td>
+                                <img class="logo rounded-circle" style="height:50px; width:50px" src="~/contestants/@contestant.ItemPictureURL" />
+                                @Html.DisplayFor(modelItem => contestant.FullName)
+                            </td>
+                            <td>
+                                <a asp-action="ContestantDetails" asp-controller="Voter" asp-route-id="@contestant.Id">View Profile</a>
+                            </td>
+
+                        </tr>
+
+                    }
+
+                }
+            </table>
+        </div>
+
+    }
+    else if (Model.EndDate <= DateTime.Now)
+    {
+        <h1>Name: @Model.Name</h1>
+        <p class="alert alert-warning alert-dismissible" role="alert">The Election had been Concluded on @Model.EndDate</p>
+
+        <ul>
+            <li>
+                <p>Total Number of Position: @Model.Positions.Count()</p>
+            </li>
+        </ul>
+        <div class="justify-content-center" style="max-width: 70%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        margin-top:1px;
+        margin-left:auto;
+        margin-right:auto;">
+            <table class="table table-active table-hover">
+                @foreach (var position in Model.Positions)
+                {
+                    <tr>
+                        <td>
+                            <b>Position Name:</b> @Html.DisplayFor(modelItem => position.Name)
+                        </td>
+                    </tr>
+
+                    foreach (var contestant in position.Contestants.OrderBy(c => c.ConestantVote))
+                    {
+                        <tr>
+                            <td>
+                                <img class="logo rounded-circle" style="height:50px; width:50px" src="~/contestants/@contestant.ItemPictureURL" />
+                                @Html.DisplayFor(modelItem => contestant.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => contestant.ConestantVote)
+                            </td>
+                            <td>
+                                <a asp-action="ContestantDetails" asp-controller="Voter" asp-route-id="@contestant.Id">View Profile</a>
+                            </td>
+
+                        </tr>
+
+                    }
+                    <tr>
+                        <td>
+                            Number of contestant: @position.Contestants.Count()
+                        </td>
+                    </tr>
+
+                }
+            </table>
+        </div>
+    }
+    else if (Model.StartDate <= DateTime.Now && Model.EndDate > DateTime.Now)
+    {
+        <h1>Welcome to the @Model.Name</h1>
+
+        <div class="justify-content-center" style="max-width: 70%;
+        box-sizing: border-box;
+        box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
+        background-color:white;
+        margin-top:1px;
+        margin-left:auto;
+        margin-right:auto;">
+            <table class="table table-active table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var position in Model.Positions)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => position.Name)
+                            </td>
+                            <td>
+                                <a asp-action="VoterVote" asp-controller="Voter" asp-route-id="@position.Id"  asp-route-code="@Model.Code">View</a>
+                            </td>
+                            <td>
+                                <a asp-action="Result" asp-controller="Voter" asp-route-id="@position.Id" asp-route-code="@Model.Code">View Result</a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+    else
+    {
+        <p class="alert alert-warning alert-dismissible" role="alert">
+            Sorry No Election
+        </p>
+    }
+
 </div>

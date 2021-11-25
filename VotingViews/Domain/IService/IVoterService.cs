@@ -10,19 +10,19 @@ namespace VotingViews.Domain.IService
 {
     public interface IVoterService
     {
-        public Voter Update(Voter voter);
+        public Voter Update(UpdateVoterDto model, int id);
 
-        public List<Voter> GetAll();
+        public List<VoterDto> GetAll();
 
-        public Voter AddVoter(Voter voter);
+        public Voter AddVoter(CreateVoterDto model);
 
         public bool Exists(int id);
 
         public Voter GetVoterByUserId(int userId);
 
-        public Voter FindById(int id);
+        public VoterDto FindById(int id);
 
-        public Voter FindByEmail(string email);
+        public VoterDto FindByEmail(string email);
 
         public void DeleteVoter(int id);
     }

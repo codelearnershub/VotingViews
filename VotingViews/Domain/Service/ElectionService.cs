@@ -36,19 +36,36 @@ namespace VotingViews.Domain.Service
         public ElectionDto GetElectionByCode(Guid code)
         {
             var election = _election.FindByCode(code);
-            
+            if (election == null)
+            {
+                return null;
+            }
+
             return new ElectionDto
             {
+                Id = election.Id,
                 Name = election.Name,
                 Code = election.Code,
                 StartDate = election.StartDate,
                 EndDate = election.EndDate,
                 Status = GetStatus(election.Id),
-                Positions = election.Positions.Select(c => new Position()
+                Positions = election.Positions.Select(c => new PositionDto()
                 {
                     Id = c.Id,
                     Name = c.Name,
-                }).ToList()
+                    Contestants =  c.Contestants.Select(c => new ContestantDto()
+                    {
+                        Id = c.Id,
+                        FirstName = c.FirstName,
+                        LastName = c.LastName,
+                        MiddleName = c.MiddleName,
+                        Gender = c.Gender,
+                        Email = c.Email,
+                        InternalImage = c.InternalImage,
+                        ItemPictureURL = c.ItemPictureURL,
+                    }).ToList()
+                }).ToList(),
+
             };
         }
 
@@ -63,7 +80,23 @@ namespace VotingViews.Domain.Service
                 Code = election.Code,
                 StartDate = election.StartDate,
                 EndDate = election.EndDate,
-                Status = GetStatus(election.Id)
+                Status = GetStatus(election.Id),
+                Positions = election.Positions.Select(c => new PositionDto()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Contestants = c.Contestants.Select(c => new ContestantDto()
+                    {
+                        Id = c.Id,
+                        FirstName = c.FirstName,
+                        LastName = c.LastName,
+                        MiddleName = c.MiddleName,
+                        Gender = c.Gender,
+                        Email = c.Email,
+                        InternalImage = c.InternalImage,
+                        ItemPictureURL = c.ItemPictureURL,
+                    }).ToList()
+                }).ToList(),
             };
 
             return electionDto;

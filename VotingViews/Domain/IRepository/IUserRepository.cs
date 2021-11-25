@@ -9,6 +9,8 @@ namespace VotingViews.Domain.IRepository
 {
     public interface IUserRepository
     {
+        public IQueryable<User> Query();
+
         public User CreateUser(User user);
 
         public User FindByEmail(string email);
