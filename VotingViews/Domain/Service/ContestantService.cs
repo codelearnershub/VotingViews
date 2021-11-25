@@ -84,9 +84,9 @@ namespace VotingViews.Domain.Service
             return contestantDto;
         }
 
-        public async Task<List<ContestantDto>> ListOfContestants()
+        public List<ContestantDto> ListOfContestants()
         {
-            return await _contestant.GetAll();
+            return  _contestant.GetAll();
         }
 
         public Contestant UpdateContestant(UpdateContestantDto model, int id)

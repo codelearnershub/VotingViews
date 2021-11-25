@@ -32,13 +32,39 @@ namespace VotingViews.Controllers
             _election = election;
             _webHostEnvironment = webHostEnvironment;
         }
-        [HttpGet]
-        public async  Task<IActionResult> Index()
-        {
-           var model =await _contestant.ListOfContestants();
-            return View(model);
-        }
 
+        [HttpGet]
+        public IActionResult Index(string sortOrder, string searchString)
+        {
+            ViewBag.PositionNameSortParm = string.IsNullOrEmpty(sortOrder) ? "positionName_desc" : "";
+            ViewBag.ElectionNameSortParm = sortOrder == "Election Name" ? "electionName_desc" : "Election Name";
+
+            var contestants = from c in _contestant.ListOfContestants()
+                              select c;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                contestants = contestants.Where(s => s.FullName.Contains(searchString)
+                                       || s.Position.Election.Name.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "PositionName_desc":
+                    contestants = contestants.OrderByDescending(s => s.Position.Name);
+                    break;
+                case "Election Name":
+                    contestants = contestants.OrderBy(s => s.Position.Election.Name);
+                    break;
+                case "electionName_desc":
+                    contestants = contestants.OrderByDescending(s => s.Position.Election.Name);
+                    break;
+                default:
+                    contestants = contestants.OrderBy(s => s.FullName);
+                    break;
+            }
+
+            return View(contestants.ToList());
+        }
         //public IActionResult Vote(int id)
         //{
         //    _vote.Vote(id, User.Identity.Name);
@@ -48,7 +74,7 @@ namespace VotingViews.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            List<ElectionDto> elections =_election.GetAllElections();
+            List<ElectionDto> elections = _election.GetAllElections();
             List<SelectListItem> listContestants = new List<SelectListItem>();
             foreach (ElectionDto election in elections)
             {
@@ -61,7 +87,7 @@ namespace VotingViews.Controllers
         [HttpPost]
         public IActionResult Create(CreateContestant model, IFormFile file)
         {
-            
+
             if (ModelState.IsValid)
             {
                 if (file != null)
@@ -155,16 +181,16 @@ namespace VotingViews.Controllers
             return View(details);
         }
         [HttpPost]
-        public IActionResult Details( Contestant contestant)
+        public IActionResult Details(Contestant contestant)
         {
             _contestant.GetContestantById(contestant.Id);
             ContestantVM model = new ContestantVM
             {
-               FirstName = contestant.FirstName,
-               LastName = contestant.LastName,
-               MiddleName = contestant.MiddleName,
-               Gender = contestant.Gender,
-               Email= contestant.Email
+                FirstName = contestant.FirstName,
+                LastName = contestant.LastName,
+                MiddleName = contestant.MiddleName,
+                Gender = contestant.Gender,
+                Email = contestant.Email
             };
             return View(model);
         }

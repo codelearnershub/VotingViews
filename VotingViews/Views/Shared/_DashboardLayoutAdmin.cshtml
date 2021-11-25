@@ -27,10 +27,30 @@
 
         </div>
     </div>
+    <script>
 
+        Date.prototype.today = function () {
+            return this.getFullYear() + "-" + (((this.getMonth() + 1) < 10) ? "0" : "") + (this.getMonth() + 1) + "-"+ ((this.getDate() < 10) ? "0" : "") + this.getDate()
+        }
+
+        // For the time now
+        Date.prototype.timeNow = function () {
+            return ((this.getHours() < 10) ? "0" : "") + this.getHours() + ":" + ((this.getMinutes() < 10) ? "0" : "") + this.getMinutes();
+        }
+
+        //2021 - 11 - 16T22: 53
+
+        document.getElementById("startDate").min = new Date().today() + "T" + new Date().timeNow();
+        document.getElementById("endDate").min = document.getElementById("startDate").value ?? new Date().toISOString().split("T")[0];
+
+        document.getElementById("startDate").addEventListener('change', () => {
+            document.getElementById("endDate").min = document.getElementById("startDate").value
+        });
+       // endDate.min =  document.getElementById("startDate");
+    </script>
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/popper.js"></script>
-    <script src="~/lib//bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/GetElectionPositions.js"></script>
     @RenderSection("Scripts", required: false)

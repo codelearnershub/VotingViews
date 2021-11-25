@@ -18,12 +18,14 @@ namespace VotingViews.Controllers
     public class ElectionController : Controller
     {
         private readonly IElectionService _service;
+        private readonly IContestantService _contestant;
         private readonly ApplicationContext _context;
 
-        public ElectionController(IElectionService service, ApplicationContext context)
+        public ElectionController(IElectionService service, ApplicationContext context, IContestantService contestant)
         {
             _service = service;
             _context = context;
+            _contestant = contestant;
         }
 
         [HttpGet]
@@ -33,7 +35,43 @@ namespace VotingViews.Controllers
             return View(model);
         }
 
-       
+        [HttpGet]
+        public IActionResult GetElection(int id)
+        {
+            var elect = _service.GetElectionById(id);
+            if (elect.StartDate > DateTime.Now)
+            {
+                return View(elect);
+            }
+            else if (elect.StartDate <= DateTime.Now && elect.EndDate > DateTime.Now)
+            {
+                return View(elect);
+            }
+            else if (elect.EndDate <= DateTime.Now)
+            {
+                return View(elect);
+            }
+            return View();
+        }
+
+        public IActionResult Return(int electionId)
+        {
+            return RedirectToAction("GetElection", "Election", new { id = electionId });
+        }
+
+        public IActionResult Result(int? positionId, int electionId)
+        {
+            var result = _contestant.GetContestantByPositionId(positionId.Value);
+
+
+            ResultPageDto model = new ResultPageDto
+            {
+                Contestants = result,
+                ElectionId = electionId
+            };
+
+            return View(model);
+        }
 
         [HttpGet]
         public IActionResult Create()
@@ -58,7 +96,7 @@ namespace VotingViews.Controllers
         }
 
         [HttpGet()]
-        public IActionResult Update( int? id)
+        public IActionResult Update(int? id)
         {
 
             var update = _service.GetElectionById(id.Value);

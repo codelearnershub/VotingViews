@@ -1,7 +1,7 @@
 ﻿@model VotingViews.DTOs.ElectionDto
 
 @{
-    Layout = "_DashboardLayoutVoter";
+    Layout = "_DashboardLayoutAdmin";
 }
 
 <div>
@@ -10,7 +10,7 @@
     @if (Model.StartDate > DateTime.Now)
     {
         <h1>Name: @Model.Name</h1>
-        <p class="alert alert-warning alert-dismissible" role="alert">The Election is Yet Start. Please come back by @Model.StartDate for the election. Thank You</p>
+        <p class="alert alert-warning alert-dismissible" role="alert">The Election is Yet Start. </p>
         <div class="justify-content-center" style="max-width: 70%;
         box-sizing: border-box;
         box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.13);
@@ -35,7 +35,7 @@
                                 @Html.DisplayFor(modelItem => contestant.FullName)
                             </td>
                             <td>
-                                <a asp-action="ContestantDetails" asp-controller="Voter" asp-route-id="@contestant.Id">View Profile</a>
+                                <a asp-action="Details" asp-controller="Contestant" asp-route-id="@contestant.Id">View Profile</a>
                             </td>
 
                         </tr>
@@ -84,7 +84,7 @@
                                 @Html.DisplayFor(modelItem => contestant.ConestantVote)
                             </td>
                             <td>
-                                <a asp-action="ContestantDetails" asp-controller="Voter" asp-route-id="@contestant.Id">View Profile</a>
+                                <a asp-action="Details" asp-controller="Contestant" asp-route-id="@contestant.Id">View Profile</a>
                             </td>
 
                         </tr>
@@ -130,10 +130,7 @@
                                 @Html.DisplayFor(modelItem => position.Name)
                             </td>
                             <td>
-                                <a asp-action="VoterVote" asp-controller="Voter" asp-route-id="@position.Id"  asp-route-code="@Model.Code">View</a>
-                            </td>
-                            <td>
-                                <a asp-action="Result" asp-controller="Voter" asp-route-id="@position.Id" asp-route-code="@Model.Code">View Result</a>
+                                <a asp-action="Result" asp-controller="Election" asp-route-positionId="@position.Id" asp-route-electionId="@Model.Id">View Result</a>
                             </td>
                         </tr>
 

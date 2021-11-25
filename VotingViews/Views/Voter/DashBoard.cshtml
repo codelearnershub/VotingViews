@@ -27,27 +27,29 @@
 
 
             <div class="row container">
+                <p>@ViewBag.Message</p>
                 <div class="col-6 p-auto m-auto">
                     <h1>DashBoard</h1>
 
                     <h5>Welcome! @User.Identity.Name</h5>
-                    <br />
+                    @*<br />
                     <div>
                         <p>
                             Create an Election By Sending email To the Admin <b><a asp-action="SendEmail" asp-controller="SendMail">Here</a></b>
                         </p>
-                    </div>
+                    </div>*@
                     <br />
                     <div>
-                        <p>Please input your Election Code that was sent to you below</p>
+                        <p>Please input your Election Code that was given to you below</p>
                         <form method="post" class="needs-validation">
+
+                            <input type="text" name="code" placeholder="Text" />
+                            <button type="submit" asp-controller="Voter" asp-action="Election" value="Search" id="Button">Enter</button>
                             @if (!string.IsNullOrEmpty(ViewBag.Message))
                             {
                                 <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
                             }
-                            <input type="text" name="code" placeholder="Text" />
-                            <button type="submit" asp-controller="Voter" asp-action="Election" value="Search" id="Button">Search</button>
-                            @ViewBag.CodeError
+
                         </form>
 
                     </div>

@@ -27,6 +27,7 @@ namespace VotingViews.Domain.Service
             update.LastName = model.LastName;
             update.MiddleName = model.MiddleName;
             update.Password = model.Password;
+            update.Address = model.Address;
 
             _voter.Update(update);
             return update;

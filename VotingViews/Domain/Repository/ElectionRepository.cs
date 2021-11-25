@@ -44,7 +44,10 @@ namespace VotingViews.Domain.Repository
 
         public Election FindbyId(int id)
         {
-            return _context.Elections.FirstOrDefault(a=>a.Id == id);
+            return _context.Elections
+                .Include(c => c.Positions)
+                .ThenInclude(q => q.Contestants)
+                .FirstOrDefault(a=>a.Id == id);
         }
 
         public bool Exists(int id)

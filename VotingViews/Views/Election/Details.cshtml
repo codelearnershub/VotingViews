@@ -54,10 +54,10 @@
         </dd>
 
         <dt class="col-sm-2">
-            Position
+            Result
         </dt>
         <dd class="col-sm-10">
-            <a asp-action="Create" asp-controller="Position" asp-route-electionId="electionId"> Create Position</a>
+            <a asp-action="GetElection" asp-controller="Election" asp-route-id="@Model.Id">View Result</a>
         </dd>
 
     </dl>

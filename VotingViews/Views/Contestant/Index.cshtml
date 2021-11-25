@@ -13,9 +13,18 @@
         margin-top:1px;
         margin-left:auto;
         margin-right:auto;">
-    <p>
-        <a asp-action="Create">+Register New Contestant</a>
-    </p>
+    <div style="padding-left:2em; padding-top:2em;">
+        
+        <form class="align-content-center">
+            <p>
+                <a asp-action="Create">+Register New Contestant</a>
+                &nbsp;
+                Find by Name: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" />
+            </p>
+        </form>
+    </div>
+   
     <table class="table table-active table-hover">
         <thead>
             <tr>
@@ -23,10 +32,10 @@
                     FullName
                 </th>
                 <th>
-                    Election
+                    @Html.ActionLink("Position Name", "Index", new { sortOrder = ViewBag.PositionNameSortParm })
                 </th>
                 <th>
-                    Position
+                    @Html.ActionLink("Election Name", "Index", new { sortOrder = ViewBag.ElectionNameSortParm })
                 </th>
                 <th></th>
             </tr>
@@ -40,10 +49,10 @@
                         @Html.DisplayFor(modelItem => item.FullName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Position.Election.Name)
+                        @Html.DisplayFor(modelItem => item.Position.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Position.Name)
+                        @Html.DisplayFor(modelItem => item.Position.Election.Name)
                     </td>
                     <td>
                         @Html.ActionLink("Update", "Update", new { id = item.Id }) |

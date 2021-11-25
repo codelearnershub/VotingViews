@@ -15,7 +15,7 @@ using VotingViews.Models;
 
 namespace VotingViews.Controllers
 {
-    [Authorize(Roles ="voter")]
+   [AllowAnonymous]
     public class VoterController : Controller
     {
         private readonly IVoterService _service;
@@ -46,37 +46,44 @@ namespace VotingViews.Controllers
 
         [HttpGet]
         [Authorize(Roles = "voter")]
-        public IActionResult DashBoard()
+        public IActionResult DashBoard(string message)
         {
-
+            ViewBag.Message = message;
             return View();
         }
 
        
-
-        public IActionResult Result(int? id )
+        [AllowAnonymous]
+        public IActionResult Result(int? id, Guid code )
         {
             var result = _contestant.GetContestantByPositionId(id.Value);
 
-            return View(result);
+            ResultPageDto model = new ResultPageDto
+            {
+                Contestants = result,
+                Code = code
+            };
+
+            return View( model);
         }
 
-        [Authorize(Roles = "voter")]
+        [AllowAnonymous]
         public IActionResult Election(Guid code)
         {
+            string message = "";
             Guid vcode = Guid.Empty;  
             if (code == vcode)
             {
-                ViewBag.Message = "Enter Election Code";
-                return RedirectToAction(nameof(DashBoard));
+                message = "Enter Election Code";
+                return RedirectToAction(nameof(DashBoard), message);
             }
             else
             {
                 var elect = _election.GetElectionByCode(code);
                 if (elect == null )
                 {
-                    ViewBag.Message = "Invalid Election Code";
-                    return RedirectToAction(nameof(DashBoard));
+                    message = "Invalid Election Code";
+                    return RedirectToAction(nameof(DashBoard), message);
                 }
 
                 var election = _position.GetPositionByElectionCode(code);
@@ -99,12 +106,12 @@ namespace VotingViews.Controllers
 
         }
 
-
+        [AllowAnonymous]
         public IActionResult CompletedElection()
         {
             return View();
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult Delete(int? id)
         {
@@ -132,14 +139,19 @@ namespace VotingViews.Controllers
 
         [Authorize(Roles = "voter")]
         [HttpGet]
-        public IActionResult VoterVote(int? id)
+        public IActionResult VoterVote(int? id, Guid code)
         {
             var position = _contestant.GetContestantByPositionId(id.Value);
-            return View(position);
+            ResultPageDto model = new ResultPageDto
+            {
+                Contestants = position,
+                Code = code
+            };
+            return View(model);
         }
 
         [Authorize(Roles = "voter")]
-        public IActionResult Vote(int positionId, int contestantId)
+        public IActionResult Vote(int positionId, int contestantId, Guid code)
         {
             var loggedInUserEmail = User.FindFirst(ClaimTypes.Name).Value;
 
@@ -148,27 +160,26 @@ namespace VotingViews.Controllers
             if (vote == null)
             {
                 message = "You Have already voted for this Position before.";
-                //ViewBag.Message = message;
-                //var position = _position.GetPositionById(id);
-                // View(position);
             }
             else
             {
                 message = "Thanks for Voting.";
-                //ViewBag.Message = message;
-                //var position = _position.GetPositionById(id);
-                //return View(position);
             }
 
-            return RedirectToAction("AlreadyVoted", "Voter", new { id = positionId, message });
+            return RedirectToAction("AlreadyVoted", "Voter", new { id = positionId, message, code });
             
         }
-
-        public IActionResult AlreadyVoted(int id, string message)
+        [AllowAnonymous]
+        public IActionResult AlreadyVoted(int id, string message, Guid code)
         {
             ViewBag.Message = message;
             var position = _position.GetPositionById(id);
-            return View(position);
+            ResultPageDto model = new ResultPageDto
+            {
+                Position = position,
+                Code = code
+            };
+            return View(model);
 
            
         }
@@ -234,17 +245,18 @@ namespace VotingViews.Controllers
             {
                 _service.Update(voterDto, id);
 
-                return RedirectToAction(nameof(DashBoard));
+                return RedirectToAction(nameof(Profile));
             }
             return View(voter);
         }
-
+        [Authorize(Roles ="voter")]
         [HttpPost]
         public IActionResult UpdatePassword()
         {
             return RedirectToAction(nameof(Update));
         }
 
+        [AllowAnonymous]
         public IActionResult ContestantDetails(int? id)
         {
             if (id == null)

@@ -14,7 +14,7 @@ namespace VotingViews.Domain.IService
 
         public Contestant AddContestant(CreateContestant model);
 
-        Task<List<ContestantDto>> ListOfContestants();
+        public List<ContestantDto> ListOfContestants();
 
         Task VoteContestant(int id, string email);
 

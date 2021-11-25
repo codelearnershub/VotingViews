@@ -81,6 +81,8 @@ namespace VotingViews.Domain.Service
             {
                 Id = position.Id,
                 Name = position.Name,
+                Election = position.Election,
+                ElectionId = position.ElectionId,
                 TotalCount = position.TotalCount
             };
         }

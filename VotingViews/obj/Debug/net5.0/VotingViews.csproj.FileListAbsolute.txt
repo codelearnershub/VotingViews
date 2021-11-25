@@ -172,3 +172,5 @@ C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\VotingViews.
 C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\Razor\Views\Voter\AlreadyVoted.cshtml.g.cs
 C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\Razor\Views\Voter\ContestantDetails.cshtml.g.cs
 C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\Razor\Views\Shared\_AuthLayout.cshtml.g.cs
+C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\Razor\Views\Election\GetElection.cshtml.g.cs
+C:\Users\user\source\repos\VotingViews\VotingViews\obj\Debug\net5.0\Razor\Views\Election\Result.cshtml.g.cs

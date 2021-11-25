@@ -26,10 +26,33 @@ namespace VotingViews.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public  IActionResult Index(string searchString, string electionPosition )
         {
-            var model = _position.ListOfPositions();
-            return View(model);
+            IEnumerable<string> electionQuery = from p in _position.ListOfPositions()
+                                               orderby p.Election.Name
+                                               select p.Election.Name;
+            var positions = from p in _position.ListOfPositions()
+                            select p;
+
+           
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                positions = positions.Where(p => p.Name.Contains(searchString));
+            }
+            if (!string.IsNullOrEmpty(electionPosition))
+            {
+                positions = positions.Where(x => x.Election.Name == electionPosition);
+            }
+
+            var positionListFilterViewModel = new PositionListFilterViewModel
+            {
+                Elections = new SelectList(electionQuery.Distinct().ToList()),
+                Positions = positions.ToList()
+
+            };
+            //var model = _position.ListOfPositions();
+            return View(positionListFilterViewModel);
         }
 
         [HttpGet]

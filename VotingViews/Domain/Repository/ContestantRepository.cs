@@ -86,9 +86,9 @@ namespace VotingViews.Domain.Repository
             return _context.Contestants.Include(c => c.Position).ThenInclude(c => c.Election).FirstOrDefault(a => a.Id == id);
         }
 
-        public async Task<List<ContestantDto>> GetAll()
+        public List<ContestantDto> GetAll()
         {
-            return await _context.Contestants
+            return _context.Contestants
                 .Include(c => c.Position)
                 .ThenInclude(c => c.Election)
                 .Select(c => new ContestantDto
@@ -104,7 +104,7 @@ namespace VotingViews.Domain.Repository
                     ItemPictureURL = c.ItemPictureURL,
                     Position = c.Position,
                     PositionId = c.PositionId
-                }).ToListAsync();
+                }).ToList();
         }
 
         public Contestant UpdateContestant(Contestant model)
